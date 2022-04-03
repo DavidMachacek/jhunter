@@ -3,7 +3,7 @@ package cz.machacek.jhunter.core
 import javax.persistence.*
 
 @Entity
-@Table(name = "contacts")
+@Table(name = "Contacts")
 data class ContactEntity(
         @Id
         @Column

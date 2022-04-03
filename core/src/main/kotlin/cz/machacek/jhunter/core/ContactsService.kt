@@ -7,13 +7,15 @@ import javax.transaction.Transactional
 
 @Service
 class ContactsService(
-        private val contactRepository: ContactRepository
+        private val contactRepository: ContactRepository,
+        private val communicationService: CommunicationService
 ) {
 
     private val logger = KotlinLogging.logger {}
 
     init {
         createPeople()
+        communicationService.createCommunication()
     }
 
     @Transactional

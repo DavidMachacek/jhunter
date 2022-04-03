@@ -1,4 +1,4 @@
-import React, {forwardRef, useEffect, useState} from 'react';
+import React, {Component, forwardRef} from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import './App.css';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -19,7 +19,7 @@ import {Avatar, Grid} from "@material-ui/core";
 import axios from "axios";
 import {Alert} from "@material-ui/lab";
 import MaterialTable from "material-table";
-//import CommunicationList from './components/CommunicationList.js';
+import CommunicationList from './components/CommunicationList.js';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -45,44 +45,52 @@ const api = axios.create({
     baseURL: `http://localhost:8080/api`
 })
 
-function validateEmail(email) {
-    const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
-    return re.test(String(email).toLowerCase());
-}
+
+var columns = [
+    {title: "id", field: "idContact", hidden: true},
+    {
+        title: "Avatar",
+        render: rowData => <Avatar maxInitials={1} size={40} round={true}
+                                   name={rowData === undefined ? " " : rowData.firstName}/>
+    },
+    {title: "First name", field: "firstName"},
+    {title: "Last name", field: "lastName"},
+    {title: "email", field: "email"},
+    {title: "phone", field: "phone"},
+    {title: "role", field: "role"}
+]
+
+//const [data, setData] = useState([]); //table data
 
 
-function App() {
+export default class App extends Component {
 
-    var columns = [
-        {title: "id", field: "idContact", hidden: false},
-        {title: "Avatar",
-            render: rowData => <Avatar maxInitials={1} size={40} round={true}
-                                       name={rowData === undefined ? " " : rowData.firstName}/>
-        },
-        {title: "First name", field: "firstName"},
-        {title: "Last name", field: "lastName"},
-        {title: "email", field: "email"},
-        {title: "phone", field: "phone"},
-        {title: "role", field: "role"}
-    ]
+    state = {
+        contacts: [],
+        isError: false,
+        errorMessages: []
+    }
 
-    const [data, setData] = useState([]); //table data
+    componentDidMount() {
+        this.loadData()
+    }
 
-    //for error handling
-    const [iserror, setIserror] = useState(false)
-    const [errorMessages, setErrorMessages] = useState([])
+    validateEmail(email) {
+        const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
+        return re.test(String(email).toLowerCase());
+    }
 
-    useEffect(() => {
+    loadData() {
         api.get("/contacts")
             .then(res => {
-                setData(res.data)
+                this.setState( { contacts: res.data })
             })
-            .catch(error=>{
+            .catch(error => {
                 console.log("Error")
             })
-    }, [])
+    }
 
-    const handleRowUpdate = (newData, oldData, resolve) => {
+    handleRowUpdate(newData, oldData, resolve) {
         //validation
         let errorList = []
         if (newData.firstName === "") {
@@ -91,37 +99,44 @@ function App() {
         if (newData.lastName === "") {
             errorList.push("Please enter last name")
         }
-        if (newData.email === "" || validateEmail(newData.email) === false) {
+        if (newData.email === "" || this.validateEmail(newData.email) === false) {
             errorList.push("Please enter a valid email")
         }
 
         if (errorList.length < 1) {
             api.patch("/contacts/" + newData.idContact, newData)
                 .then(res => {
-                    const dataUpdate = [...data];
+                    //const dataUpdate = [...data];
+                    //this.setState( { data })
+                    const updatedData = this.state.ids.slice()
                     const index = oldData.tableData.id;
-                    dataUpdate[index] = newData;
-                    setData([...dataUpdate]);
+                    updatedData[index] = newData
+                    //setData([...dataUpdate]);
+                    this.setState( { ...updatedData })
                     resolve()
+                    /*
                     setIserror(false)
-                    setErrorMessages([])
+                    setErrorMessages([])*/
                 })
                 .catch(error => {
+                    this.setState((previousState) => ({ errorMessages: [...previousState.errorMessages, "Update failed! Server error"], isError: true}))
+                    /*
                     setErrorMessages(["Update failed! Server error"])
-                    setIserror(true)
+                    setIserror(true)*/
                     resolve()
 
                 })
         } else {
+            this.setState((previousState) => ({ errorMessages: [...previousState.errorMessages, errorList], isError: true}))
+            /*
             setErrorMessages(errorList)
-            setIserror(true)
+            setIserror(true)*/
             resolve()
-
         }
 
     }
 
-    const handleRowAdd = (newData, resolve) => {
+    handleRowAdd(newData, resolve) {
         //validation
         let errorList = []
         if (newData.firstName === undefined) {
@@ -130,87 +145,98 @@ function App() {
         if (newData.lastName === undefined) {
             errorList.push("Please enter last name")
         }
-        if (newData.email === undefined || validateEmail(newData.email) === false) {
+        if (newData.email === undefined || this.validateEmail(newData.email) === false) {
             errorList.push("Please enter a valid email")
         }
 
         if (errorList.length < 1) { //no error
             api.post("/contacts", newData)
                 .then(res => {
-                    let dataToAdd = [...data];
-                    dataToAdd.push(newData);
-                    setData(dataToAdd);
-                    resolve()
+                    /*let dataToAdd = [...this.state.contacts];
+                    dataToAdd.push(newData);*/
+                    //setData(dataToAdd);
+                    //this.setState( { dataToAdd })
+                    this.setState((previousState) => ({ contacts: [...previousState.contacts, newData] }))
+                    resolve()/*
                     setErrorMessages([])
-                    setIserror(false)
+                    setIserror(false)*/
                 })
                 .catch(error => {
+                    this.setState((previousState) => ({ errorMessages: [...previousState.errorMessages, "Cannot add data. Server error!"], isError: true}))
+                    /*
                     setErrorMessages(["Cannot add data. Server error!"])
-                    setIserror(true)
+                    setIserror(true)*/
                     resolve()
                 })
-        } else {
+        } else {/*
             setErrorMessages(errorList)
-            setIserror(true)
+            setIserror(true)*/
             resolve()
         }
 
     }
 
-    const handleRowDelete = (oldData, resolve) => {
+    handleRowDelete(oldData, resolve) {
 
         api.delete("/contacts/" + oldData.idContact)
             .then(res => {
-                const dataDelete = [...data];
+                const dataDelete = [...this.state.contacts];
                 const index = oldData.tableData.idContact;
                 dataDelete.splice(index, 1);
-                setData([...dataDelete]);
+                //setData([...dataDelete]);
+                this.setState( (previousState) => ({ contacts: dataDelete }))
                 resolve()
             })
             .catch(error => {
+                this.setState((previousState) => ({ errorMessages: [...previousState.errorMessages, "Delete failed! Server error!"], isError: true}))
+                /*
                 setErrorMessages(["Delete failed! Server error"])
-                setIserror(true)
+                setIserror(true)*/
                 resolve()
             })
     }
 
+    render() {
+        return (
+            //<Contacts contacts={this.state.contacts}/>
+            <div className="App">
 
-    return (
-        //<Contacts contacts={this.state.contacts}/>
-        <div className="App">
+                <Grid container spacing={
+                    1
+                }
 
-            <Grid container spacing={1}>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
-                    <div>
-                        {iserror &&
-                            <Alert severity="error">
-                                {errorMessages.map((msg, i) => {
-                                    return <div key={i}>{msg}</div>
-                                })}
-                            </Alert>
-                        }
-                    </div>
-                    <MaterialTable
-                        title="Seznam kontaktů"
-                        columns={columns}
-                        data={data}
-                        icons={tableIcons}
-                        editable={{
-                            onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowUpdate(newData, oldData, resolve);
+                >
+                    <Grid item xs={3}></Grid>
+                    <Grid item xs={6}>
+                        <div>
+                            {this.state.isError &&
+                                <Alert severity="error">
+                                    {this.state.errorMessages.map((msg, i) => {
+                                        return <div key={i}>{msg}</div>
+                                    })}
+                                </Alert>
+                            }
+                        </div>
+                        <MaterialTable
+                            title="Seznam kontaktů"
+                            columns={columns}
+                            data={this.state.contacts}
+                            icons={tableIcons}
+                            editable={{
+                                onRowUpdate: (newData, oldData) =>
+                                    new Promise((resolve) => {
+                                        this.handleRowUpdate(newData, oldData, resolve);
 
-                                }),
-                            onRowAdd: (newData) =>
-                                new Promise((resolve) => {
-                                    handleRowAdd(newData, resolve)
-                                }),
-                            onRowDelete: (oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowDelete(oldData, resolve)
-                                }),
-                        }}/*
+                                    }),
+                                onRowAdd: (newData) =>
+                                    new Promise((resolve) => {
+                                        this.handleRowAdd(newData, resolve)
+                                    }),
+                                onRowDelete: (oldData) =>
+                                    new Promise((resolve) => {
+                                        this.handleRowDelete(oldData, resolve)
+                                    }),
+                            }}
                         detailPanel={[
                             {
                                 tooltip: 'Ukaz kontakty',
@@ -220,13 +246,14 @@ function App() {
                                     )
                                 },
                             }
-                            ]}*/
-                    />
+                            ]}
+                        />
+                    </Grid>
+                    <Grid item xs={3}></Grid>
                 </Grid>
-                <Grid item xs={3}></Grid>
-            </Grid>
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 /*
@@ -246,4 +273,5 @@ componentDidMount()
 }
 */
 
-export default App;
+/*
+export default App;*/
