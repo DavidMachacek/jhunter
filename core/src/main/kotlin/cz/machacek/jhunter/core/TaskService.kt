@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 class TaskService(
     private val taskRepository: TaskRepository
 ) {
-    fun getTasksForContact(idContact: String): TaskEntity {
+    fun getTasksForContact(idContact: String): List<TaskEntity> {
         return taskRepository.findAllTasksForContact(idContact)
     }
 

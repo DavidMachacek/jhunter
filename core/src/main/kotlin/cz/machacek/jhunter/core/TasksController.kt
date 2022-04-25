@@ -12,7 +12,7 @@ class TasksController(
     private val logger = KotlinLogging.logger {}
 
     @PatchMapping
-    fun getTasksForContaact(@PathVariable idContact:String): TaskEntity {
+    fun getTasksForContaact(@PathVariable idContact:String): List<TaskEntity> {
         logger.info{ "operation=getTasksForContaact, params=[idContact=$idContact]"}
         return taskService.getTasksForContact(idContact)
     }

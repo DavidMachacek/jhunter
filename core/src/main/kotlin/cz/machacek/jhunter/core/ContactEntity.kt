@@ -18,5 +18,7 @@ data class ContactEntity(
         @Column
         var email: String? = null,
         @Column
-        var phone: String? = null
+        var phone: String? = null,
+        @Column
+        var linkedIn: String? = null
 )
