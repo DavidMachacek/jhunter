@@ -27,6 +27,6 @@ data class ExperienceEntity (
 
 ) {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idContact", referencedColumnName = "idContact")
-    open var contactEntity: ContactEntity? = null
+    @JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
+    open var personEntity: PersonEntity? = null
 }

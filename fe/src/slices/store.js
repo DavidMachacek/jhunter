@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import contactReducer from './contact';
+import personReducer from './person';
 import { combineReducers } from 'redux'
 
 const reducer = combineReducers({
-    reducer: contactReducer
+    reducer: personReducer
 })
 
 const store = configureStore({
     reducer: {
-        contacts: contactReducer
+        persons: personReducer
     }
 })
 

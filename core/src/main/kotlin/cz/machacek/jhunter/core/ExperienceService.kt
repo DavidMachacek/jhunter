@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service
 class ExperienceService(
     private val experienceRepository: ExperienceRepository
 ) {
-    fun getTasksForContact(idContact: String): List<ExperienceEntity> {
-        return experienceRepository.findAllExperienceForContact(idContact)
+    fun getTasksForPerson(idPerson: String): List<ExperienceEntity> {
+        return experienceRepository.findAllExperienceForPerson(idPerson)
     }
 
     fun patchExperience(idExperience: String, experienceEntity: ExperienceEntity): ExperienceEntity {

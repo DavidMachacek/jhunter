@@ -83,8 +83,8 @@ export default class CommunicationList extends Component {
         this.loadData()
     }
 
-    loadData(idContact) {
-        api.get("/communication/" + this.props.idContact)
+    loadData(idPerson) {
+        api.get("/communication/" + this.props.idPerson)
             .then(res => {
                 this.setState({communications: res.data})
             })
@@ -103,7 +103,7 @@ export default class CommunicationList extends Component {
             errorList.push("Please enter note")
         }
         if (errorList.length < 1) { //no error
-            api.post("/communication/" + this.props.idContact, newData)
+            api.post("/communication/" + this.props.idPerson, newData)
                 .then(res => {
                     let dataToAdd = [...this.state.communications];
                     dataToAdd.push(newData);

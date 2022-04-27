@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TaskRepository: CrudRepository<TaskEntity, Long> {
 
-    @Query("select task from TaskEntity task where task.contactEntity.idContact=?1")
-    fun findAllTasksForContact(idContact: String): List<TaskEntity>
+    @Query("select task from TaskEntity task where task.personEntity.idPerson=?1")
+    fun findAllTasksForPerson(idPerson: String): List<TaskEntity>
 }

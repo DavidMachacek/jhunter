@@ -3,12 +3,12 @@ package cz.machacek.jhunter.core
 import javax.persistence.*
 
 @Entity
-@Table(name = "Contacts")
-data class ContactEntity(
+@Table(name = "persons")
+data class PersonEntity(
         @Id
         @Column
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val idContact: Long? = null,
+        val idPerson: Long? = null,
         @Column
         var firstName: String? = null,
         @Column

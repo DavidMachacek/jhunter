@@ -11,15 +11,15 @@ class CommunicationsController(
 
     private val logger = KotlinLogging.logger {}
 
-    @GetMapping("/{idContact}")
-    fun getCommunication(@PathVariable idContact: String): List<CommunicationEntity> {
-        logger.info{ "operation=getCommunication, params=[idContact=$idContact]"}
-        return communicationService.getCommunication(idContact = idContact)
+    @GetMapping("/{idPerson}")
+    fun getCommunication(@PathVariable idPerson: String): List<CommunicationEntity> {
+        logger.info{ "operation=getCommunication, params=[idPerson=$idPerson]"}
+        return communicationService.getCommunication(idPerson = idPerson)
     }
 
-    @PostMapping("/{idContact}")
-    fun createCommunication(@PathVariable idContact: String, @RequestBody communicationEntity: CommunicationEntity): CommunicationEntity {
+    @PostMapping("/{idPerson}")
+    fun createCommunication(@PathVariable idPerson: String, @RequestBody communicationEntity: CommunicationEntity): CommunicationEntity {
         logger.info{ "operation=createCommunication, params=[communicationEntity=$communicationEntity]"}
-        return communicationService.createCommunication(idContact, communicationEntity)
+        return communicationService.createCommunication(idPerson, communicationEntity)
     }
 }
