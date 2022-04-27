@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const contactSlice = createSlice({
-    name: "contactId",
-    initialState: "",
+    name: "contact",
+    initialState: {
+        id: "0",
+    },
     reducers: {
         saveContactId: (state, action) => {
-            state.contactId = action.payload
-        }
-    }
+            state.id = action.payload
+        },
+    },
 });
 
 export const { saveContactId } = contactSlice.actions

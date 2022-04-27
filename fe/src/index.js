@@ -4,22 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux'
+import store from './slices/store'
 
-import { configureStore } from "@reduxjs/toolkit";
-import contactSlice from "./slices/contact.js";
-
-const store = configureStore({
-    reducer: {
-        saveContactId: contactSlice.reducer
-    }
-});
 
 ReactDOM.render(
-    /*<React.StrictMode>*/
+    <React.StrictMode>
         <Provider store={store}>
             <App/>
         </Provider>,
-    /*</React.StrictMode>*/
+    </React.StrictMode>,
     document.getElementById('root')
 );
 

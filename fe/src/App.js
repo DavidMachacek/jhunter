@@ -1,23 +1,21 @@
-import React, {Component} from 'react';
+import React, {useEffect } from 'react';
 import Contacts from './components/Contacts.js';
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
+/*import store from "./slices/store"
+import {getContactId} from "./slices/contact"
+import {Button} from "@material-ui/core";*/
 
-export default class App extends Component {
-    //https://blog.logrocket.com/react-redux-connect-when-and-how-to-use-it-f2a1edab2013/
-    getContactId() {
-        const mapStateToProps = state => ({
-            idContact: state.idContact
-        });
-        return mapStateToProps((state) => state.idContact); // <-- select the user state
-    }
+function App() {
+    const contactId = useSelector((state) => state.contacts.id);
+    console.log("contact id is " + {contactId})
 
-    render() {
-        return (
-            <div>
-                <h1>JHUNTER</h1>
-                <Contacts/>
-                <h3>State is {() => this.getContactId()}</h3>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <h1>JHUNTER</h1>
+            <Contacts/>
+            <h3>State is {contactId}</h3>
+        </div>
+    )
 }
+
+export default App;
