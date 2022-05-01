@@ -1,39 +1,51 @@
 import React, {useEffect, useState} from 'react';
 import '../css/Persons.css';
 import {Avatar, Grid} from "@material-ui/core";
-import axios from "axios";
 import {Alert} from "@material-ui/lab";
 import MaterialTable from 'material-table';
-import CommunicationList from './CommunicationList.js';
-import { savePersonId } from '../slices/person.js';
+import PersonDetail from './PersonDetail';
+import {savePersonId} from '../slices/person.js';
 import tableIcons from '../consts/tableIcons';
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import api from "../consts/api"
 
 function Persons() {
     const [persons, setPersons] = useState([]);
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+    const roles = useSelector((state) => state.roleFilter.roles);
 
     useEffect(() => {
         loadData()
-    }, [JSON.stringify(persons)])
+    }, [JSON.stringify(persons), JSON.stringify(roles)])
 
-    const api = axios.create({
-        baseURL: `http://localhost:8080/api`
-    })
 
     const columns = [
         {title: "id", field: "idPerson", hidden: true},
-        {
+        /*{
             title: "Avatar",
             render: rowData => <Avatar size={40}
                                        name={rowData === undefined ? " " : rowData.firstName}/>
+        },*/
+        {
+            render: (rowData) => {
+                return `${rowData.firstName} ${rowData.lastName}`;
+            },
+            title: 'Name',
         },
+        {
+            render: (rowData) => {
+                return `${rowData.experiences.map((exp) => { return exp.type})}`;
+            },
+            title: 'Role',
+        }
+
+        /*,
         {title: "First name", field: "firstName"},
-        {title: "Last name", field: "lastName"},
+        {title: "Last name", field: "lastName", defaultSort: "asc"},
         {title: "email", field: "email"},
         {title: "phone", field: "phone"},
-        {title: "role", field: "role"}
+        {title: "role", field: "role"}*/
     ]
 
     const validateEmail = (email) => {
@@ -42,7 +54,11 @@ function Persons() {
     }
 
     function loadData() {
-        api.get("/persons")
+        console.log("roles")
+        console.log(roles)
+        let roleKeys = roles.map((role) => { return role.key})
+        console.log("roleKeys" + roleKeys)
+        api.post("/persons/search", {roles: roleKeys})
             .then(res => {
                 setPersons(res.data);
             })
@@ -144,59 +160,66 @@ function Persons() {
     return (
         <div className="Persons">
 
-            <Grid container spacing={
+            {/*<Grid container spacing={
                 1
             }
 
             >
-                <Grid item xs={3}></Grid>
-                <Grid item xs={6}>
-                    <div>
-                        {isError &&
-                            <Alert severity="error">
-                                {errorMessages.map((msg, i) => {
-                                    return <div key={i}>{msg}</div>
-                                })}
-                            </Alert>
-                        }
-                    </div>
-                    <MaterialTable
-                        title="Seznam kontaktů"
-                        columns={columns}
-                        data={persons}
-                        icons={tableIcons}
-                        onRowClick={(event, rowData) => {
-                            dispatch(savePersonId(rowData.idPerson))
-                        }}
-                        editable={{
-                            onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowUpdate(newData, oldData, resolve);
+                <Grid item xs={3}></Grid>*/}
+            {/*<Grid item xs={6}>*/}
+            <div>
+                {isError &&
+                    <Alert severity="error">
+                        {errorMessages.map((msg, i) => {
+                            return <div key={i}>{msg}</div>
+                        })}
+                    </Alert>
+                }
+            </div>
+            <MaterialTable
+                title="Seznam kontaktů"
+                columns={columns}
+                data={persons}
+                icons={tableIcons}
+                options={{
+                    padding: "dense",
+                    actionsColumnIndex: -1,
+                    pageSize: 20, pageSizeOptions: [5, 10, 20, 30],
+                    rowStyle: (data, index) => index % 2 == 0 ? {background: "#f5f5f5", width: 50} : {width: 50},
+                    headerStyle: {background: "#00B3FF", fontWeight: 'bold', color: "white", height: 60, whiteSpace: "nowrap", width: 50}
+                }}
+                onRowClick={(event, rowData) => {
+                    dispatch(savePersonId(rowData.idPerson))
+                }}
+                editable={{
+                    onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve) => {
+                            handleRowUpdate(newData, oldData, resolve);
 
-                                }),
-                            onRowAdd: (newData) =>
-                                new Promise((resolve) => {
-                                    handleRowAdd(newData, resolve)
-                                }),
-                            onRowDelete: (oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowDelete(oldData, resolve)
-                                }),
-                        }}
-                        detailPanel={[
-                            {
-                                tooltip: 'Ukaz kontakty',
-                                render: rowData => {
-                                    return (
-                                        <CommunicationList idPerson={rowData.idPerson}/>
-                                    )
-                                },
-                            }
-                        ]}
-                    />
-                </Grid>
-                <Grid item xs={3}></Grid>
-            </Grid>
+                        }),
+                    onRowAdd: (newData) =>
+                        new Promise((resolve) => {
+                            handleRowAdd(newData, resolve)
+                        }),
+                    onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                            handleRowDelete(oldData, resolve)
+                        }),
+                }}
+                detailPanel={[
+                    {
+                        tooltip: 'Ukaz kontakty',
+                        render: rowData => {
+                            return (
+                                <PersonDetail person={rowData}/>
+                            )
+                        },
+                    }
+                ]}
+            />
+            {/*</Grid>*/}
+            {/*  <Grid item xs={3}></Grid>
+            </Grid>*/}
         </div>
     )
 }

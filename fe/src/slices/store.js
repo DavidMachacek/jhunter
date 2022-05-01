@@ -1,14 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import personReducer from './person';
+import roleReducer from './roleFilter';
 import { combineReducers } from 'redux'
 
 const reducer = combineReducers({
-    reducer: personReducer
+    personReducer: personReducer,
+    roleReducer: roleReducer
 })
 
 const store = configureStore({
     reducer: {
-        persons: personReducer
+        persons: personReducer,
+        roleFilter: roleReducer
     }
 })
 

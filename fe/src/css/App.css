@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+#wrapper {
+  border: 1px solid blue;
+}
+#top-row {
+  border: 1px solid blue;
+  display: flex;
+}
+#persons {
+  display: inline-block;
+  width: 50%;
+  border: 1px solid red;
+  margin: 0;
+  padding: 0;
+}
+#exp {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  border: 1px solid green;
+  margin: 0;
+  padding: 0;
+}
