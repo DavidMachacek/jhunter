@@ -1,5 +1,6 @@
 package cz.machacek.jhunter.core
 
-data class ExperienceRequest(
-    val roles: List<ExperienceTypeEnum>
+data class SearchPersonRequest(
+    val roles: List<ExperienceTypeEnum>,
+    val seniority: List<ExperienceSeniorityEnum>?
 )

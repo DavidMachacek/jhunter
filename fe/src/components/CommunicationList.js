@@ -60,25 +60,13 @@ function CommunicationList() {
             field: "created",
             type: "date",
             dateSetting: {format: 'dd/MM/yyyy'},
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
             filterComponent: (props) => <CustomDatePicker {...props} />
         },
         {
             title: "Channel", field: "channel",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
         },
         {
             title: "Note", field: "note",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
         }
     ]
 
@@ -93,7 +81,7 @@ function CommunicationList() {
                 search: false, filtering: true,
                 actionsColumnIndex: -1,
                 rowStyle: (data, index) => index%2==0?{ background: "#f5f5f5" }: null,
-                headerStyle: {background: "#00B3FF", fontWeight: 'bold', color: "white", height: 60, whiteSpace: "nowrap"}
+                headerStyle: {fontWeight: 'bold', color: "#f8bbd0", height: 60, whiteSpace: "nowrap"}
             }}
             editable={{
                 onRowAdd: (newData) =>

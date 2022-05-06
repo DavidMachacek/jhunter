@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 interface ExperienceRepository: CrudRepository<ExperienceEntity, Long> {
 
     @Query("select exp from ExperienceEntity exp where exp.personEntity.idPerson=?1")
-    fun findAllExperienceForPerson(idPerson: String): List<ExperienceEntity>
+    fun findAllExperienceForPerson(idPerson: Long): List<ExperienceEntity>
 }

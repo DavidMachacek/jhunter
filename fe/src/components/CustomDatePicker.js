@@ -18,9 +18,6 @@ const CustomDatePicker = (props) => {
                 clearable
                 value={date}
                 onChange={(event) => {
-                    console.log("Date picker value: ", event);
-                    console.log(props.columnDef.tableData.id);
-
                     setDate(event);
                     props.onFilterChanged(props.columnDef.tableData.id, event);
                 }}

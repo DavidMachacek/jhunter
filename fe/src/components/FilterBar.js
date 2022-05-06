@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import {useDispatch} from "react-redux";
 import {saveRole} from '../slices/roleFilter.js';
+import roles from '../consts/roles';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,20 +30,6 @@ function getStyles(role, roleName, theme) {
                 : theme.typography.fontWeightMedium,*/
     };
 }
-const roles = [
-    {
-        label: "Java",
-        key: "JAVA"
-    },
-    {
-        label: "db",
-        key: "DATABASE"
-    },
-    {
-        label: ".net",
-        key: "DOTNET"
-    }
-];
 
 function FilterBar() {
 
@@ -58,8 +45,6 @@ function FilterBar() {
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
-        console.log("value")
-        console.log(value)
         dispatch(saveRole(value))
     };
     const dispatch = useDispatch();

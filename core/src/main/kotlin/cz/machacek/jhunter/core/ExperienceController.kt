@@ -11,10 +11,10 @@ class ExperienceController(
 
     private val logger = KotlinLogging.logger {}
 
-    @PatchMapping
+    @GetMapping("/{idPerson}")
     fun getExperienceForPerson(@PathVariable idPerson:String): List<ExperienceEntity> {
         logger.info{ "operation=getTasksForContaact, params=[idPerson=$idPerson]"}
-        return experienceService.getTasksForPerson(idPerson)
+        return experienceService.getExperienceForPerson(idPerson)
     }
 
     @PatchMapping("/{id}")

@@ -1,5 +1,8 @@
 package cz.machacek.jhunter.core
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import javax.persistence.*
 
 @Entity
@@ -21,4 +24,8 @@ data class PersonEntity(
         var phone: String? = null,
         @Column
         var linkedIn: String? = null
-)
+) {
+        @Fetch(FetchMode.JOIN)
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
+        var experiences: MutableList<ExperienceEntity> = mutableListOf();
+}

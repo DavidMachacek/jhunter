@@ -40,4 +40,10 @@ class PersonController(
         logger.info{ "operation=getPeopleFromDB"}
         return personService.getPeopleFromDB()
     }
+
+    @PostMapping("/search")
+    fun getPeopleByExp(@RequestBody request: SearchPersonRequest): List<PersonEntity> {
+        logger.info{ "operation=getPeopleByExp"}
+        return personService.getPeopleByExp(request)
+    }
 }

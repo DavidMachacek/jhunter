@@ -36,41 +36,21 @@ function Experience() {
             type: "date",
             hidden: true,
             dateSetting: {format: 'dd/MM/yyyy'},
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
             filterComponent: (props) => <CustomDatePicker {...props} />
         },
         {
-            title: "Type", field: "experiencesType",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
+            title: "Type", field: "type",
             lookup: { JAVA:"Java", DOTNET: ".net", ARCHITECT: "IT Architect", TESTER: "Tester", DATABASE: "Database", JAVASCRIPT: "Javascript", ANALYST: "Analytik"}
         },
         {
             title: "Years", field: "years",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
         },
         {
             title: "Seniority", field: "seniority",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
             lookup: { JUNIOR: "Junior", MEDIOR: "Medior", SENIOR: "Senior"}
         },
         {
-            title: "Note", field: "note",
-            cellStyle: {
-                backgroundColor: '#808080',
-                color: '#FFF'
-            },
+            title: "Note", field: "note"
         }
     ]
 
@@ -108,7 +88,7 @@ function Experience() {
                 search: false, filtering: true,
                 actionsColumnIndex: -1,
                 rowStyle: (data, index) => index%2==0?{ background: "#f5f5f5" }: null,
-                headerStyle: {background: "#00B3FF", fontWeight: 'bold', color: "white", height: 60, whiteSpace: "nowrap"}
+                headerStyle: {fontWeight: 'bold', color: "#f8bbd0", height: 60, whiteSpace: "nowrap"}
             }}
             editable={{
                 onRowAdd: (newData) =>

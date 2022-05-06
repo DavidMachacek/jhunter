@@ -8,7 +8,8 @@ import javax.transaction.Transactional
 @Service
 class PersonService(
     private val personRepository: PersonRepository,
-    private val communicationService: CommunicationService
+    private val communicationService: CommunicationService,
+    private val experienceService: ExperienceService
 ) {
 
     private val logger = KotlinLogging.logger {}
@@ -16,21 +17,34 @@ class PersonService(
     init {
         createPeople()
         communicationService.createCommunication()
+        experienceService.createExp()
     }
 
     @Transactional
     fun createPeople() {
         logger.info { "nahravam data do DB" }
-        val human1 = PersonEntity(firstName = "david", lastName = "machacek")
+        val human1 = PersonEntity(firstName = "david", lastName = "machacek", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
         personRepository.save(human1)
-        val human2 = PersonEntity(firstName = "adam", lastName = "machacek")
+        val human2 = PersonEntity(firstName = "adam", lastName = "machacek", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
         personRepository.save(human2)
-        val human3 = PersonEntity(firstName = "tomas", lastName = "danhel")
+        val human3 = PersonEntity(firstName = "tomas", lastName = "danhel", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
         personRepository.save(human3)
-        val human4 = PersonEntity(firstName = "jiri", lastName = "janousek")
+        val human4 = PersonEntity(firstName = "jiri", lastName = "janousek", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
         personRepository.save(human4)
-        val human5 = PersonEntity(firstName = "martin", lastName = "prochazka")
+        val human5 = PersonEntity(firstName = "martin", lastName = "prochazka", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
         personRepository.save(human5)
+        val human6 = PersonEntity(firstName = "michal", lastName = "lirs", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human6)
+        val human7 = PersonEntity(firstName = "vladimir", lastName = "janous", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human7)
+        val human8 = PersonEntity(firstName = "jana", lastName = "machacekova", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human8)
+        val human9 = PersonEntity(firstName = "adam", lastName = "zlatohlavek", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human9)
+        val human10 = PersonEntity(firstName = "oliver", lastName = "scholze", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human10)
+        val human11 = PersonEntity(firstName = "jan", lastName = "novak", linkedIn = "https://www.linkedin.com/in/david-machacek/", email = "davido.machacek@gmail.com")
+        personRepository.save(human11)
     }
 
     fun getPeopleFromDB(): List<PersonEntity> {
@@ -65,5 +79,9 @@ class PersonService(
 
     fun deletePerson(id: String) {
         personRepository.deleteById(id.toLong())
+    }
+
+    fun getPeopleByExp(request: SearchPersonRequest): List<PersonEntity> {
+        return if (request.roles.isEmpty()) personRepository.findAll().toList() else personRepository.getPeopleByExp(request.roles)
     }
 }

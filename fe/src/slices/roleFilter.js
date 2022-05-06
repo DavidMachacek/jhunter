@@ -7,12 +7,7 @@ export const roleSlice = createSlice({
     },
     reducers: {
         saveRole: (state, action) => {
-            console.log("action.payload")
-            console.log(action.payload)
-            console.log(state)
             state.roles = action.payload
-            console.log("state")
-            console.log(state)
         },
     },
 });

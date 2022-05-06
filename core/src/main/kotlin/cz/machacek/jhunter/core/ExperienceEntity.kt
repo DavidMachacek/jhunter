@@ -1,6 +1,9 @@
 package cz.machacek.jhunter.core
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -17,16 +20,21 @@ data class ExperienceEntity (
     val created : LocalDateTime? = null,
 
     @Column
-    val experiencesType: ExperienceTypeEnum? = null,
+    val type: ExperienceTypeEnum? = null,
 
     @Column
     val years: Long? = null,
 
     @Column
+    val seniority: ExperienceSeniorityEnum? = null,
+
+    @Column
     val note: String? = null
 
 ) {
+    @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
+    @JsonIgnore
     open var personEntity: PersonEntity? = null
 }
