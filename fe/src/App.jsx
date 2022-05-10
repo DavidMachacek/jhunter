@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Persons from './components/Persons.js';
+import Persons from './components/Persons.jsx';
 import {useSelector} from "react-redux";
 import CommunicationList from "./components/CommunicationList";
 import Experience from "./components/Experience";

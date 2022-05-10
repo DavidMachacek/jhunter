@@ -1,6 +1,6 @@
 import React, {Component, forwardRef, useEffect, useState} from "react";
 import MaterialTable from "material-table";
-import CustomDatePicker from "./CustomDatePicker.js";
+import CustomDatePicker from "./CustomDatePicker.jsx";
 import tableIcons from '../consts/tableIcons';
 import {useSelector} from "react-redux";
 import api from "../consts/api"
