@@ -11,13 +11,19 @@ class TasksController(
 
     private val logger = KotlinLogging.logger {}
 
-    @PatchMapping
-    fun getTasksForPerson(@PathVariable idPerson:String): List<TaskEntity> {
-        logger.info{ "operation=getTasksForPerson, params=[idPerson=$idPerson]"}
-        return taskService.getTasksForPerson(idPerson)
+    @GetMapping
+    fun getTasks(): List<TaskEntity> {
+        logger.info{ "operation=getTasks"}
+        return taskService.getTasks()
     }
 
-    @PatchMapping("/{id}")
+    @GetMapping("/{idTask}")
+    fun getTasksForPerson(@PathVariable idTask:String): List<TaskEntity> {
+        logger.info{ "operation=getTasksForPerson, params=[idTask=$idTask]"}
+        return taskService.getTasksForPerson(idTask)
+    }
+
+    @PatchMapping("/{idTask}")
     fun patchTask(@PathVariable idTask:String, taskEntity: TaskEntity): TaskEntity {
         logger.info{ "operation=patchTask, params=[idTask=$idTask, taskEntity=$taskEntity]"}
         return taskService.patchTask(idTask, taskEntity)
@@ -29,9 +35,9 @@ class TasksController(
         taskService.createTask(taskEntity)
     }
 
-    @DeleteMapping("/{id}")
-    fun deleteTaskt(@PathVariable id:String) {
-        logger.info{ "operation=deleteTask, params=[id=$id]"}
-        taskService.deleteTask(id)
+    @DeleteMapping("/{idTask}")
+    fun deleteTaskt(@PathVariable idTask:String) {
+        logger.info{ "operation=deleteTask, params=[idTask=$idTask]"}
+        taskService.deleteTask(idTask)
     }
 }

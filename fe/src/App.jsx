@@ -7,7 +7,15 @@ import './css/App.css';
 import {AppBar, CssBaseline, Typography, Toolbar, Container, Grid, ThemeProvider} from '@mui/material';
 import useStyles from './styles'
 import FilterBar from "./components/FilterBar";
-import { createTheme } from '@material-ui/core/styles'
+import {createTheme} from '@material-ui/core/styles'
+import TaskList from "./components/TaskList";
+
+/*
+
+interface PersonIdState {
+    personId: Text
+}
+*/
 
 function App() {
     const personId = useSelector((state) => state.persons.id);
@@ -59,29 +67,34 @@ function App() {
     return (
         <div>
             <ThemeProvider theme={theme}>
-            <main>
-                <CssBaseline/>
-                <AppBar>
-                    <Toolbar>
-                        <Typography variant="h4">jHunter</Typography>
-                        <Container align="right">
-                        <FilterBar className={classes.formControl} />
-                        </Container>
-                    </Toolbar>
-                </AppBar>
-                <Container className={classes.container} style={{ marginTop: 100 }}>
-                    <Grid container>
-                        <Grid item xs={6} md={3}>
-                            <Persons/>
+                <main>
+                    <CssBaseline/>
+                    <AppBar>
+                        <Toolbar>
+                            <Typography variant="h4">jHunter</Typography>
+                            <Container align="right">
+                                <FilterBar className={classes.formControl}/>
+                            </Container>
+                        </Toolbar>
+                    </AppBar>
+                    <Container className={classes.container} style={{marginTop: 100}}>
+                        <Grid container>
+                            <Grid item xs={6} md={3}>
+                                <Persons/>
+                            </Grid>
+                            <Grid item xs={6} md={9}>
+                                <Experience/>
+                                <CommunicationList/>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6} md={9}>
-                            <Experience/>
-                            <CommunicationList/>
+                        <Grid container>
+                            <Grid item xs={12} md={12}>
+                                <TaskList/>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Container>
-            </main>
-            <footer></footer>
+                    </Container>
+                </main>
+                <footer></footer>
             </ThemeProvider>
         </div>
     )

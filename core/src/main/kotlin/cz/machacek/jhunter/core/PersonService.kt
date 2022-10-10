@@ -9,7 +9,8 @@ import javax.transaction.Transactional
 class PersonService(
     private val personRepository: PersonRepository,
     private val communicationService: CommunicationService,
-    private val experienceService: ExperienceService
+    private val experienceService: ExperienceService,
+    private val taskService: TaskService
 ) {
 
     private val logger = KotlinLogging.logger {}
@@ -18,6 +19,7 @@ class PersonService(
         createPeople()
         communicationService.createCommunication()
         experienceService.createExp()
+        taskService.createTasks()
     }
 
     @Transactional

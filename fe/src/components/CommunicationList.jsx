@@ -73,12 +73,12 @@ function CommunicationList() {
     return <div>
         <MaterialTable
             icons={tableIcons}
-            title="Seznam komunikace"
+            title="Komunikace"
             columns={columns}
             data={communications}
             options={{
                 padding: "dense",
-                search: false, filtering: true,
+                search: false, filtering: false,
                 actionsColumnIndex: -1,
                 rowStyle: (data, index) => index%2==0?{ background: "#f5f5f5" }: null,
                 headerStyle: {fontWeight: 'bold', color: "#f8bbd0", height: 60, whiteSpace: "nowrap"}

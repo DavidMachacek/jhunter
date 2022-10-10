@@ -192,7 +192,7 @@ function Persons() {
                 }
             </div>
             <MaterialTable
-                title="Seznam kontaktů"
+                title="Kontakty"
                 columns={columns}
                 data={persons}
                 icons={tableIcons}
@@ -218,10 +218,10 @@ function Persons() {
                             handleRowUpdate(newData, oldData, resolve);
 
                         }),
-                    onRowAdd: (newData) =>
+                    /*onRowAdd: (newData) =>
                         new Promise((resolve) => {
                             handleRowAdd(newData, resolve)
-                        }),
+                        }),*/
                     onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                             handleRowDelete(oldData, resolve)
