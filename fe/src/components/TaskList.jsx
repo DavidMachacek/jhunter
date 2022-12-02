@@ -14,7 +14,7 @@ function TaskList() {
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
 
-    const personId = useSelector((state) => state.persons.id);
+    /*const personId = useSelector((state) => state.persons.id);*/
 
     function loadData() {
         api.get("/tasks")

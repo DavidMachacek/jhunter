@@ -9,6 +9,10 @@ import useStyles from './styles'
 import FilterBar from "./components/FilterBar";
 import {createTheme} from '@material-ui/core/styles'
 import TaskList from "./components/TaskList";
+import PropTypes from 'prop-types';
+import {connected} from './slices/connected';
+import {signIn, signInSilent, signOut, changePassword} from './slices/identityActions';
+import IdentityMenu from "./components/IdentityMenu";
 
 /*
 
@@ -17,8 +21,21 @@ interface PersonIdState {
 }
 */
 
-function App() {
-    const personId = useSelector((state) => state.persons.id);
+function App(props) {
+
+    useEffect(() => {
+        const { actions, user } = props;
+        if (!user){
+            actions.signInSilent().catch(e => console.error(e));
+        }
+
+        console.log('Token ' + user)
+        console.log('Token ' + JSON.stringify(user))
+        console.log('Token ' + user.id_token)
+       // console.log('Token ' + user.data.id)
+    })
+
+    /*const personId = useSelector((state) => state.persons.id);*/
     const classes = useStyles();
 
     const theme = createTheme({
@@ -96,8 +113,51 @@ function App() {
                 </main>
                 <footer></footer>
             </ThemeProvider>
+
+
+            <IdentityMenu userName={getUserName(props.user)}
+                          isAuthenticated={isAuthenticated(props.user)}
+                          signIn={props.actions.signIn}
+                          signOut={props.actions.signOut}
+                          changePassword={props.actions.changePassword}
+            />
+            <br/><br/><br/>
         </div>
     )
 }
 
-export default App;
+
+const isAuthenticated = (user) => {
+    return !!(user && user.profile);
+};
+
+const getUserName = (user) => {
+    return (user && user.profile && user.profile.name)
+        ? user.profile.name
+        : '';
+};
+
+App.propTypes = {
+    clientId: PropTypes.string,
+    user: PropTypes.object,
+    appConfig: PropTypes.object,
+    alerts: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+        signIn: PropTypes.func.isRequired,
+        signInSilent: PropTypes.func.isRequired,
+        signOut: PropTypes.func.isRequired,
+        changePassword: PropTypes.func.isRequired
+    })
+};
+
+export default connected(App)
+    .mappingStateToProps((state) => {
+        return {
+            clientId: state.appConfig.oauth2.client_id,
+            user: state.oidc.user,
+            alerts: state.alerts,
+            appConfig: state.appConfig
+        };
+    })
+    .mappingActionsToProps({ signIn, signInSilent, signOut, changePassword })
+    .build();

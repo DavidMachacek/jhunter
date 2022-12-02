@@ -1,3 +1,5 @@
+# D:\workspace\keycloak-20.0.1\bin>kc.bat start-dev
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

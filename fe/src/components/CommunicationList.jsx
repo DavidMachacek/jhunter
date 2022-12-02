@@ -4,13 +4,14 @@ import CustomDatePicker from "./CustomDatePicker.jsx";
 import tableIcons from '../consts/tableIcons';
 import {useSelector} from "react-redux";
 import api from "../consts/api"
+import personReducer from "../slices/person";
 
 function CommunicationList() {
     const [communications, setCommunications] = useState([]);
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
 
-    const personId = useSelector((state) => state.persons.id);
+    const personId = useSelector((state) => state.personReducer.id);
 
     useEffect(() => {
         loadData(personId)

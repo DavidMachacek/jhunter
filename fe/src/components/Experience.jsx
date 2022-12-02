@@ -5,13 +5,15 @@ import MaterialTable from "material-table";
 import tableIcons from "../consts/tableIcons";
 import CustomDatePicker from "./CustomDatePicker";
 import "../css/Experience.css"
+import roleReducer from "../slices/roleFilter";
+import personReducer from "../slices/person";
 
 function Experience() {
     const [experience, setExperience] = useState([]);
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
 
-    const personId = useSelector((state) => state.persons.id);
+    const personId = useSelector((state) => state.personReducer.id);
 
     useEffect(() => {
         loadData(personId)

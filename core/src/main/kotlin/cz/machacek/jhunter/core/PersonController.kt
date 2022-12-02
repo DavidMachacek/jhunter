@@ -1,11 +1,17 @@
 package cz.machacek.jhunter.core
 
 import mu.KotlinLogging
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 //@CrossOrigin(origins = ["http://localhost:3000"], methods = [RequestMethod.GET, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS], maxAge = 3600)
 @RestController
 @RequestMapping("/api/persons")
+@PreAuthorize("hasAnyAuthority('jhuhnter-adminn')")
 class PersonController(
         private val personService: PersonService
 ) {
@@ -42,8 +48,14 @@ class PersonController(
     }
 
     @PostMapping("/search")
-    fun getPeopleByExp(@RequestBody request: SearchPersonRequest): List<PersonEntity> {
+    fun getPeopleByExp(@RequestBody request: SearchPersonRequest, @AuthenticationPrincipal principal: Jwt): List<PersonEntity> {
         logger.info{ "operation=getPeopleByExp"}
+        logger.info{ "operation=principal name " + principal.id}
+        logger.info{ "operation=claims name " + principal.claims["preferred_username"]}
+        logger.info{ "operation=claims name " + principal.claims["resource_access"]}
+        val user = principal.toJhUser()
+        logger.info{ "operation=claims name 2 " + user.id }
+        logger.info{ "operation=claims name 2 " + user.username }
         return personService.getPeopleByExp(request)
     }
 }

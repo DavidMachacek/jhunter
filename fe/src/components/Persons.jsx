@@ -14,12 +14,16 @@ import * as Icons from '@fortawesome/free-solid-svg-icons';
 import * as IconsBrands from '@fortawesome/free-brands-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import useStyles from "../styles";
+import roleReducer from "../slices/roleFilter";
+import {reducer as oidc} from "redux-oidc";
 
 function Persons() {
     const [persons, setPersons] = useState([]);
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
-    const rolesFilter = useSelector((state) => state.roleFilter.roles);
+    const rolesFilter = useSelector((state) => state.roleReducer.roles);
+    const userStore = useSelector((state) => state.oidc);
+    console.log("PERSONS " + JSON.stringify(userStore.user))
     const [selectedRow, setSelectedRow] = useState(null);
 
     const classes = useStyles();
@@ -75,7 +79,25 @@ function Persons() {
         let roleKeys = rolesFilter.map((role) => {
             return role.key
         })
-        api.post("/persons/search", {roles: roleKeys})
+        api.interceptors.request.use(
+            function (config) {
+                // Do something before request is sent
+                /*config = config*/
+                config.headers['Authorization'] = 'Bearer ' + userStore.user.access_token
+/*                config.headers['Origin'] = 'http://localhost:3001'
+                config.headers['Host'] = 'http://localhost:3001'
+                config.headers['Access-Control-Allow-Origin'] = '*'*/
+                return config;
+            }, function (error) {
+                // Do something with request error
+                return Promise.reject(error);
+            }
+        )
+        api.post("/persons/search", {roles: roleKeys}
+            /*,
+            { headers: { Authorization: `Bearer ${userStore.user.id_token}` } }*/
+            )
+
             .then(res => {
                 setPersons(res.data);
             })
