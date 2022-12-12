@@ -24,8 +24,10 @@ class TaskService(
         return taskRepository.findAllTasksForPerson(idPerson)
     }
 
-    fun patchTask(idTask: String, taskEntity: TaskEntity): TaskEntity {
-        TODO("Not yet implemented")
+    fun finishTask(idTask: Long): TaskEntity {
+        val task = taskRepository.findById(idTask).get()
+        task.isDone = true
+        return taskRepository.save(task)
     }
 
     fun createTask(taskEntity: TaskEntity) {

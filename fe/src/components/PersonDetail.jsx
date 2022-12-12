@@ -16,13 +16,15 @@ library.add(...iconList, ...iconsBrands);
 
 function PersonDetail(props) {
 
+    console.log('PersonDetail ' + JSON.stringify(props.person))
+
     return (
         <div>
             <Avatar/>
-            <Typography><FontAwesomeIcon icon="fa-solid fa-person" />{props.person.firstName} {props.person.lastName}</Typography>
-            <Typography><FontAwesomeIcon icon="fa-solid fa-envelope" />{props.person.email}</Typography>
-            <Typography><FontAwesomeIcon icon="fa-solid fa-phone" />{props.person.phone}</Typography>
-            <Typography><FontAwesomeIcon icon="fa-brands fa-linkedin" />{props.person.linkedIn}</Typography>
+            <Typography><FontAwesomeIcon icon="fa-solid fa-person" />{props.person.rowData.firstName} {props.person.lastName}</Typography>
+            <Typography><FontAwesomeIcon icon="fa-solid fa-envelope" />{props.person.rowData.email}</Typography>
+            <Typography><FontAwesomeIcon icon="fa-solid fa-phone" />{props.person.rowData.phone}</Typography>
+            <Typography><FontAwesomeIcon icon="fa-brands fa-linkedin" />{props.person.rowData.linkedIn}</Typography>
         </div>
     )
 }

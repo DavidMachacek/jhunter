@@ -14,7 +14,7 @@ import {connected} from './slices/connected';
 import {signIn, signInSilent, signOut, changePassword} from './slices/identityActions';
 import IdentityMenu from "./components/IdentityMenu";
 import '../public/jhunter-logo.png';
-
+import mainLogo from '../public/jhunter-logo2.png';
 /*
 
 interface PersonIdState {
@@ -30,8 +30,8 @@ function App(props) {
             actions.signInSilent().catch(e => console.error(e));
         }
 
-        console.log('Token ' + user)
-        console.log('Token ' + JSON.stringify(user))
+        /*console.log('Token ' + user)
+        console.log('Token ' + JSON.stringify(user))*/
         //console.log('Token ' + user.id_token)
        // console.log('Token ' + user.data.id)
     })
@@ -53,12 +53,12 @@ function App(props) {
         },
         typography: {
             body1: {
-                fontSize: '1rem',
-                fontWeight: 400,
+                /*fontSize: '1rem',*/
+                /*fontWeight: 400,*/
             },
             body2: {
-                fontSize: '0.8rem',
-                fontWeight: 400,
+                /*fontSize: '0.8rem',*/
+                /*fontWeight: 400,*/
             },
             h1: {
                 fontWeight: 300,
@@ -89,10 +89,27 @@ function App(props) {
                     <CssBaseline/>
                     <AppBar>
                         <Toolbar>
-                            <Typography variant="h4">jHunter</Typography>
-                            <Container align="right">
-                                <FilterBar className={classes.formControl}/>
-                            </Container>
+                            <Grid container
+                                  alignItems="center"
+                                  >
+                                <Grid item xs={3} md={3}>
+                                    <img src={mainLogo} height="80"/>
+                                    {/*<Typography variant="h4">jHunter</Typography>*/}
+                                </Grid>
+                                <Grid item xs={3} md={3}>
+                                </Grid>
+                                <Grid item xs={3} md={3}>
+                                    <IdentityMenu user={props.user}
+                                                  isAuthenticated={isAuthenticated(props.user)}
+                                                  signIn={props.actions.signIn}
+                                                  signOut={props.actions.signOut}
+                                                  changePassword={props.actions.changePassword}
+                                    />
+                                </Grid>
+                                <Grid item xs={3} md={3}>
+                                    <FilterBar className={classes.formControl}/>
+                                </Grid>
+                            </Grid>
                         </Toolbar>
                     </AppBar>
                     <Container className={classes.container} style={{marginTop: 100}}>
@@ -117,12 +134,7 @@ function App(props) {
 
 
             <br/><br/><br/>
-            <IdentityMenu userName={getUserName(props.user)}
-                          isAuthenticated={isAuthenticated(props.user)}
-                          signIn={props.actions.signIn}
-                          signOut={props.actions.signOut}
-                          changePassword={props.actions.changePassword}
-            />
+
         </div>
     )
 }
@@ -133,8 +145,8 @@ const isAuthenticated = (user) => {
 };
 
 const getUserName = (user) => {
-    return (user && user.profile && user.profile.name)
-        ? user.profile.name
+    return (user && user.profile && user.profile.preferred_username)
+        ? user.profile.preferred_username
         : '';
 };
 

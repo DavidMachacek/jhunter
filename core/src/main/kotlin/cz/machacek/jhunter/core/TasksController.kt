@@ -26,10 +26,10 @@ class TasksController(
         return taskService.getTasksForPerson(idTask)
     }
 
-    @PatchMapping("/{idTask}")
-    fun patchTask(@PathVariable idTask:String, taskEntity: TaskEntity): TaskEntity {
-        logger.info{ "operation=patchTask, params=[idTask=$idTask, taskEntity=$taskEntity]"}
-        return taskService.patchTask(idTask, taskEntity)
+    @PatchMapping("/{idTask}/done")
+    fun patchTask(@PathVariable idTask:String): TaskEntity {
+        logger.info{ "operation=patchTask, params=[idTask=$idTask"}
+        return taskService.finishTask(idTask.toLong())
     }
 
     @PostMapping

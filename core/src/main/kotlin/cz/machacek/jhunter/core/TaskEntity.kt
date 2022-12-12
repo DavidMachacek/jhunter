@@ -23,7 +23,7 @@ data class TaskEntity (
     val targetDate: LocalDateTime? = null,
 
     @Column
-    val isDone: Boolean? = false,
+    var isDone: Boolean? = false,
 
     @Column
     val note: String? = null

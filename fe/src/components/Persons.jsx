@@ -16,6 +16,10 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import useStyles from "../styles";
 import roleReducer from "../slices/roleFilter";
 import {reducer as oidc} from "redux-oidc";
+import PersonModal from "./PersonModal";
+import Modal from '@mui/material/Modal';
+import Edit from "@material-ui/icons/Edit";
+import Box from '@mui/material/Box';
 
 function Persons() {
     const [persons, setPersons] = useState([]);
@@ -23,8 +27,11 @@ function Persons() {
     const [errorMessages, setErrorMessages] = useState([]);
     const rolesFilter = useSelector((state) => state.roleReducer.roles);
     const userStore = useSelector((state) => state.oidc);
-    console.log("PERSONS " + JSON.stringify(userStore.user))
     const [selectedRow, setSelectedRow] = useState(null);
+
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = () => setModalOpen(false);
 
     const classes = useStyles();
 
@@ -69,6 +76,18 @@ function Persons() {
             return (<FontAwesomeIcon icon={role.faIconClass} class="fa fa-home fa-fw"/>)
         }) : ""
     }
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     const validateEmail = (email) => {
         const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
@@ -140,7 +159,7 @@ function Persons() {
 
     }
 
-    const handleRowAdd = (newData, resolve) => {
+   /* const handleRowAdd = (newData, resolve) => {
         //validation
         let errorList = []
         if (newData.firstName === undefined) {
@@ -169,8 +188,7 @@ function Persons() {
             setIsError(true)
             resolve()
         }
-
-    }
+    }*/
 
     const handleRowDelete = (oldData, resolve) => {
 
@@ -218,6 +236,14 @@ function Persons() {
                 columns={columns}
                 data={persons}
                 icons={tableIcons}
+                actions={[
+                    {
+                        icon: Edit,
+                        onClick: rowData => {
+                            setModalOpen(true);
+                        }
+                    }
+                    ]}
                 options={{
                     padding: "dense",
                     actionsColumnIndex: -1,
@@ -260,6 +286,17 @@ function Persons() {
                     }
                 ]}
             />
+
+            <Modal
+                open={modalOpen}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                   <PersonModal/>
+                </Box>
+            </Modal>
         </div>
     )
 }
