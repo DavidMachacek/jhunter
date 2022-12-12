@@ -1,6 +1,8 @@
 package cz.machacek.jhunter.core
 
 import mu.KotlinLogging
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,9 +14,10 @@ class TasksController(
     private val logger = KotlinLogging.logger {}
 
     @GetMapping
-    fun getTasks(): List<TaskEntity> {
-        logger.info{ "operation=getTasks"}
-        return taskService.getTasks()
+    fun getUsersTasks(@AuthenticationPrincipal principal: Jwt): List<TaskEntity> {
+        val user = principal.toJhUser()
+        logger.info{ "operation=getTasks, username=${user.username}" }
+        return taskService.getUsersTasks(user.username)
     }
 
     @GetMapping("/{idTask}")

@@ -1,3 +1,5 @@
+/*require('file-loader?name=[name].[ext]!./index.html');*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -20,9 +22,13 @@ const createUserManager = (config) => {
     return userManager;
 };
 
+if (module.hot) {
+    module.hot.accept();
+}
+
 const renderApp = (store) => {
     ReactDOM.render(
-        /*<React.StrictMode>*/
+        <React.StrictMode>
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <BrowserRouter>
@@ -40,8 +46,8 @@ const renderApp = (store) => {
                         </Switch>
                     </BrowserRouter>
                 </OidcProvider>
-            </Provider>,
-        /*</React.StrictMode>,*/
+            </Provider>
+        </React.StrictMode>,
         document.getElementById('root')
     )
 };

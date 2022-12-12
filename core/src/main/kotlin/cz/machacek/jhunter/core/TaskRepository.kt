@@ -9,4 +9,7 @@ interface TaskRepository: CrudRepository<TaskEntity, Long> {
 
     @Query("select task from TaskEntity task where task.personEntity.idPerson=?1")
     fun findAllTasksForPerson(idPerson: String): List<TaskEntity>
+
+    @Query("select task from TaskEntity task where task.createdBy=?1")
+    fun findAllTasksOfUser(username: String): List<TaskEntity>
 }

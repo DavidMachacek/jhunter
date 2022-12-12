@@ -1,16 +1,15 @@
 import React, {Component, forwardRef, useState} from "react";
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
-import {
-    KeyboardDatePicker,
-    MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import DatePicker from '@mui/lab/DatePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 
 const CustomDatePicker = (props) => {
     const [date, setDate] = useState(null);
 
     return (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+        <LocalizationProvider  utils={DateFnsUtils}>
+            <DatePicker
                 margin="normal"
                 id="date-picker-dialog"
                 label="Date picker"
@@ -25,7 +24,7 @@ const CustomDatePicker = (props) => {
                     "aria-label": "change date"
                 }}
             />
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider >
     );
 };
 

@@ -1,5 +1,5 @@
 import React, {Component, forwardRef, useEffect, useState} from "react";
-import MaterialTable from "material-table";
+import MaterialTable from '@material-table/core';
 import CustomDatePicker from "./CustomDatePicker.jsx";
 import tableIcons from '../consts/tableIcons';
 import {useSelector} from "react-redux";

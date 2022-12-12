@@ -50,12 +50,7 @@ class PersonController(
     @PostMapping("/search")
     fun getPeopleByExp(@RequestBody request: SearchPersonRequest, @AuthenticationPrincipal principal: Jwt): List<PersonEntity> {
         logger.info{ "operation=getPeopleByExp"}
-        logger.info{ "operation=principal name " + principal.id}
-        logger.info{ "operation=claims name " + principal.claims["preferred_username"]}
-        logger.info{ "operation=claims name " + principal.claims["resource_access"]}
         val user = principal.toJhUser()
-        logger.info{ "operation=claims name 2 " + user.id }
-        logger.info{ "operation=claims name 2 " + user.username }
         return personService.getPeopleByExp(request)
     }
 }

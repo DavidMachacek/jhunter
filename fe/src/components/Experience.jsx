@@ -1,7 +1,7 @@
 import {useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
 import api from "../consts/api";
-import MaterialTable from "material-table";
+import MaterialTable from '@material-table/core';
 import tableIcons from "../consts/tableIcons";
 import CustomDatePicker from "./CustomDatePicker";
 import "../css/Experience.css"

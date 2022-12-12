@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../css/Persons.css';
 import {Avatar, Grid} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-import MaterialTable from 'material-table';
+import MaterialTable from '@material-table/core';
 import PersonDetail from './PersonDetail';
 import {savePersonId} from '../slices/person.js';
 import tableIcons from '../consts/tableIcons';

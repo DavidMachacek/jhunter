@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import api from "../consts/api";
-import MaterialTable from "material-table";
+import MaterialTable from '@material-table/core';
 import tableIcons from "../consts/tableIcons";
 import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

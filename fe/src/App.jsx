@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import {connected} from './slices/connected';
 import {signIn, signInSilent, signOut, changePassword} from './slices/identityActions';
 import IdentityMenu from "./components/IdentityMenu";
+import '../public/jhunter-logo.png';
 
 /*
 
@@ -31,7 +32,7 @@ function App(props) {
 
         console.log('Token ' + user)
         console.log('Token ' + JSON.stringify(user))
-        console.log('Token ' + user.id_token)
+        //console.log('Token ' + user.id_token)
        // console.log('Token ' + user.data.id)
     })
 
@@ -115,13 +116,13 @@ function App(props) {
             </ThemeProvider>
 
 
+            <br/><br/><br/>
             <IdentityMenu userName={getUserName(props.user)}
                           isAuthenticated={isAuthenticated(props.user)}
                           signIn={props.actions.signIn}
                           signOut={props.actions.signOut}
                           changePassword={props.actions.changePassword}
             />
-            <br/><br/><br/>
         </div>
     )
 }
@@ -141,7 +142,6 @@ App.propTypes = {
     clientId: PropTypes.string,
     user: PropTypes.object,
     appConfig: PropTypes.object,
-    alerts: PropTypes.object.isRequired,
     actions: PropTypes.shape({
         signIn: PropTypes.func.isRequired,
         signInSilent: PropTypes.func.isRequired,

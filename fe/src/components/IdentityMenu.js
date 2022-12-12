@@ -5,25 +5,6 @@ import {Button, Menu, MenuItem} from '@mui/material';
 import {withStyles} from '@mui/styles';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-/*const styles = theme => ({
-    root: {
-        display: 'flex',
-    },
-    leftIcon: {
-        marginRight: theme.spacing.unit,
-    },
-    rightIcon: {
-        marginLeft: 2 * theme.spacing.unit,
-    },
-    profileButton: {
-        color: '#ffffff',
-        fontWeight: 300,
-        fontSize: '1rem',
-        textTransform: 'none',
-        paddingLeft: '3px',
-        paddingRight: '0px',
-    },
-});*/
 
 class IdentityMenu extends React.Component {
 
@@ -59,7 +40,7 @@ class IdentityMenu extends React.Component {
                         >
                             {isAuthenticated && userName}
                             <FontAwesomeIcon class="fa-solid fa-user"/>
-                            asdasdasd
+                            Profiless
                             {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
                         </Button>
                         {/*<Menu
@@ -106,7 +87,6 @@ class IdentityMenu extends React.Component {
 }
 
 IdentityMenu.propTypes = {
-    classes: PropTypes.object.isRequired,
     userName: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     signIn: PropTypes.func.isRequired,

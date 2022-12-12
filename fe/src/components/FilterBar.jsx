@@ -71,7 +71,7 @@ function FilterBar() {
                 >
                     {roles.map((role) => (
                         <MenuItem
-                            /*key={role.key}*/
+                            key={role.key}
                             value={role}
                             style={getStyles(role, roleName.label, theme)}
                         >

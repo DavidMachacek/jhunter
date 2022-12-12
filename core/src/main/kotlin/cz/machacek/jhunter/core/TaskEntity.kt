@@ -17,6 +17,9 @@ data class TaskEntity (
     val created : LocalDateTime? = null,
 
     @Column
+    val createdBy : String,
+
+    @Column
     val targetDate: LocalDateTime? = null,
 
     @Column
