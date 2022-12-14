@@ -5,11 +5,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {Provider} from 'react-redux'
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter, Switch, Route ,Router } from 'react-router-dom';
 import axios from 'axios';
 import {CallbackComponent, loadUser, OidcProvider} from 'redux-oidc';
 import {UserManager, WebStorageStateStore} from 'oidc-client';
-import {Route, Switch} from 'react-router-dom';
 import configureStore from './slices/store';
 
 const createUserManager = (config) => {
@@ -29,9 +28,9 @@ if (module.hot) {
 const renderApp = (store) => {
     ReactDOM.render(
         <React.StrictMode>
+            <BrowserRouter>
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
-                    <BrowserRouter>
                         <Switch>
                             <Route exact path="/auth-callback" render={(props) => (
                                 <CallbackComponent
@@ -41,12 +40,11 @@ const renderApp = (store) => {
                                     <div>Redirecting...</div>
                                 </CallbackComponent>
                             )}/>
-                            <Route path="*" component={App}/>
-                            {/*<App/>*/}
+                            <Route path="/"><App/></Route>
                         </Switch>
-                    </BrowserRouter>
                 </OidcProvider>
             </Provider>
+            </BrowserRouter>
         </React.StrictMode>,
         document.getElementById('root')
     )

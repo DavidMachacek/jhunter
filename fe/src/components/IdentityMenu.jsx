@@ -103,13 +103,13 @@ function IdentityMenu(props) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Ahoj {user.profile.preferred_username}
+                        Ahoj {user && user.profile.preferred_username}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Tady jsou detaily uzivatele:
                         <ul>
-                            <li>Krestni jmeno: {user.profile.given_name}</li>
-                            <li>Prijmeni: {user.profile.family_name}</li>
+                            <li>Krestni jmeno: {user && user.profile.given_name}</li>
+                            <li>Prijmeni: {user && user.profile.family_name}</li>
                         </ul>
                     </Typography>
                 </Box>
