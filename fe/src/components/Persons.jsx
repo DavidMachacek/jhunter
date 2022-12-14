@@ -20,6 +20,7 @@ import roleReducer from "../slices/roleFilter";
 import {reducer as oidc} from "redux-oidc";
 import PersonModal from "./PersonModal";
 import Modal from '@mui/material/Modal';
+import Add from "@material-ui/icons/Add";
 import Edit from "@material-ui/icons/Edit";
 import Box from '@mui/material/Box';
 
@@ -221,7 +222,16 @@ function Persons() {
                 icons={tableIcons}
                 actions={[
                     {
+                        icon: Add,
+                        tooltip: 'Add User',
+                        isFreeAction: true,
+                        onClick: (event) => {
+                            setModalOpen(true);
+                        }
+                    },
+                    {
                         icon: Edit,
+                        tooltip: 'Edit User',
                         onClick: (event, rowData) => {
                             console.log("setSelectedRow" + JSON.stringify(rowData.tableData))
                             setSelectedRow(rowData.tableData.id)
