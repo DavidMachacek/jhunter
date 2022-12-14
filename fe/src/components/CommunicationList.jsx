@@ -78,6 +78,7 @@ function CommunicationList() {
             columns={columns}
             data={communications}
             options={{
+                pageSize: 10,
                 padding: "dense",
                 search: false, filtering: false,
                 actionsColumnIndex: -1,

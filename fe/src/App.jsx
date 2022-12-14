@@ -15,6 +15,7 @@ import {signIn, signInSilent, signOut, changePassword} from './slices/identityAc
 import IdentityMenu from "./components/IdentityMenu";
 import '../public/jhunter-logo.png';
 import mainLogo from '../public/jhunter-logo2.png';
+
 /*
 
 interface PersonIdState {
@@ -25,15 +26,15 @@ interface PersonIdState {
 function App(props) {
 
     useEffect(() => {
-        const { actions, user } = props;
-        if (!user){
+        const {actions, user} = props;
+        if (!user) {
             actions.signInSilent().catch(e => console.error(e));
         }
 
         /*console.log('Token ' + user)
         console.log('Token ' + JSON.stringify(user))*/
         //console.log('Token ' + user.id_token)
-       // console.log('Token ' + user.data.id)
+        // console.log('Token ' + user.data.id)
     })
 
     /*const personId = useSelector((state) => state.persons.id);*/
@@ -91,7 +92,7 @@ function App(props) {
                         <Toolbar>
                             <Grid container
                                   alignItems="center"
-                                  >
+                            >
                                 <Grid item xs={3} md={3}>
                                     <img src={mainLogo} height="80"/>
                                     {/*<Typography variant="h4">jHunter</Typography>*/}
@@ -110,14 +111,20 @@ function App(props) {
                             </Grid>
                         </Toolbar>
                     </AppBar>
-                    <Container className={classes.container} style={{marginTop: 100}}>
+                    <Container className={classes.container} style={{marginTop: 100}} spacing={5}>
                         <Grid container>
-                            <Grid item xs={6} md={3}>
-                                <Persons/>
+                            <Grid container xs={6} md={4}>
+                                <Grid item xs={12} md={12}>
+                                    <Persons/>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={6} md={9}>
-                                <Experience/>
-                                <CommunicationList/>
+                            <Grid container alignContent="baseline"xs={6} md={8} spacing={0}>
+                                <Grid item xs={12} md={12}>
+                                    <Experience/>
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    <CommunicationList/>
+                                </Grid>
                             </Grid>
                         </Grid>
                         <Grid container>
@@ -131,7 +138,9 @@ function App(props) {
             </ThemeProvider>
 
 
-            <br/><br/><br/>
+            <br/>
+            <br/>
+            <br/>
 
         </div>
     )
@@ -169,5 +178,5 @@ export default connected(App)
             appConfig: state.appConfig
         };
     })
-    .mappingActionsToProps({ signIn, signInSilent, signOut, changePassword })
+    .mappingActionsToProps({signIn, signInSilent, signOut, changePassword})
     .build();

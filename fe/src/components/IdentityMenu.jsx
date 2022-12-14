@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import {Button, Modal, Box, Typography} from '@mui/material';
 import {withStyles} from '@mui/styles';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
+import {Grid} from "@material-ui/core";
+import Chip from '@mui/material/Chip';
+import Notifications from "./Notifications";
 
 function IdentityMenu(props) {
 
@@ -30,69 +32,44 @@ function IdentityMenu(props) {
         <div>
             {isAuthenticated ?
                 (<div>
-                    {/*className={classes.profileButton}*/}
-                    <Button variant="contained"
-                            onClick={handleOpen}
-                        /*aria-owns={open ? 'menu-list' : null}
-                        aria-haspopup="true"
-                        onClick={this.menuOpen}*/
-                    >
-                        <FontAwesomeIcon icon="fa-solid fa-user"/>
-                        Profile
-                        {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
-                    </Button>
-
-                    <Button variant="contained"
-                        /*aria-owns={open ? 'menu-list' : null}
-                        aria-haspopup="true"
-                        onClick={this.menuOpen}*/
-                            onClick={signOut}
-                    >
-                        <FontAwesomeIcon icon="fa-solid fa-user"/>
-                        Sign Out
-                        {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
-                    </Button>
-                    {/*<Menu
-                            id="menu-authenticated"
-                            anchorEl={this.state.anchor}
-                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-                            transformOrigin={{horizontal: 'left', vertical: 'top'}}
-                            getContentAnchorEl={null}
-                            transitionDuration={0}
-                            open={this.state.open}
-                            onClose={this.menuClose}
-                        >
-                            <MenuItem key="placeholder" style={{display: 'none'}}/>
-                            <Link to="/account">
-                                <MenuItem>
-                                    <FontAwesomeIcon class="fa-solid fa-user"/>
-                                    <AccountIcon className={classes.leftIcon}/>
-                                    Account
-                                </MenuItem>
-                            </Link>
-                            <MenuItem id='menu-change-password' onClick={changePassword}>
-                                <FontAwesomeIcon class="fa-solid key"/>
-                                <ChangePasswordIcon className={classes.leftIcon}/>
-                                Change password
-                            </MenuItem>
-                            <MenuItem id='menu-sign-out' onClick={event => {
-                                this.menuClose();
-                                signOut(event);
-                            }}>
-                                <SignOutIcon className={classes.leftIcon}/>
-                                <FontAwesomeIcon class="fa-solid fa-arrow-right-from-bracket"/>
-                                Sign out
-                            </MenuItem>
-                        </Menu>*/}
+                    <Grid container alignContent="center">
+                        <Grid xs={3}>
+                            {/*className={classes.profileButton}*/}
+                            <Button variant="contained"
+                                    onClick={handleOpen}
+                                /*aria-owns={open ? 'menu-list' : null}
+                                aria-haspopup="true"
+                                onClick={this.menuOpen}*/
+                            >
+                                <FontAwesomeIcon icon="fa-solid fa-user"/>
+                                Profile
+                                {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
+                            </Button>
+                        </Grid>
+                        <Grid xs={3}>
+                            <Button variant="contained"
+                                /*aria-owns={open ? 'menu-list' : null}
+                                aria-haspopup="true"
+                                onClick={this.menuOpen}*/
+                                    onClick={signOut}
+                                    color="error"
+                            >
+                                <FontAwesomeIcon icon="fa-solid fa-user"/>
+                                SignOut
+                                {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
+                            </Button>
+                        </Grid>
+                        <Grid xs={6}>
+                            <Notifications/>
+                        </Grid>
+                    </Grid>
                 </div>)
                 :
                 (
                     <Button width="100px" height="100px" onClick={signIn} variant="contained"
-                            color="error"><FontAwesomeIcon class="fa-solid fa-user"/> Sign in</Button>
+                            color="success"><FontAwesomeIcon class="fa-solid fa-user"/> Sign in</Button>
                 )
             }
-
-
 
 
             <Modal
@@ -105,7 +82,7 @@ function IdentityMenu(props) {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Ahoj {user && user.profile.preferred_username}
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
                         Tady jsou detaily uzivatele:
                         <ul>
                             <li>Krestni jmeno: {user && user.profile.given_name}</li>

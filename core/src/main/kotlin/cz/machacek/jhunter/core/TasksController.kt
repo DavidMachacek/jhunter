@@ -20,13 +20,20 @@ class TasksController(
         return taskService.getUsersTasks(user.username)
     }
 
-    @GetMapping("/{idTask}")
+    @GetMapping("/due")
+    fun getDueTasksForPerson(@AuthenticationPrincipal principal: Jwt): List<TaskEntity> {
+        val user = principal.toJhUser()
+        logger.info{ "operation=getDueTasksForPerson, params=[idPerson=${user.username}]"}
+        return taskService.getDueTasksForUser(user.username)
+    }
+
+    @GetMapping("/id/{idTask}")
     fun getTasksForPerson(@PathVariable idTask:String): List<TaskEntity> {
-        logger.info{ "operation=getTasksForPerson, params=[idTask=$idTask]"}
+        logger.info { "operation=getTasksForPerson, params=[idTask=$idTask]"}
         return taskService.getTasksForPerson(idTask)
     }
 
-    @PatchMapping("/{idTask}/done")
+    @PatchMapping("/id/{idTask}/done")
     fun patchTask(@PathVariable idTask:String): TaskEntity {
         logger.info{ "operation=patchTask, params=[idTask=$idTask"}
         return taskService.finishTask(idTask.toLong())
@@ -38,7 +45,7 @@ class TasksController(
         taskService.createTask(taskEntity)
     }
 
-    @DeleteMapping("/{idTask}")
+    @DeleteMapping("/id/{idTask}")
     fun deleteTaskt(@PathVariable idTask:String) {
         logger.info{ "operation=deleteTask, params=[idTask=$idTask]"}
         taskService.deleteTask(idTask)

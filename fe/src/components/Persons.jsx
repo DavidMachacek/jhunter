@@ -216,7 +216,7 @@ function Persons() {
                 }
             </div>
             <MaterialTable
-                title="Kontakty"
+                title="Lide"
                 columns={columns}
                 data={persons}
                 icons={tableIcons}

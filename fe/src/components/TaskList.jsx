@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import taskStatus from "../consts/status";
 import {Alert} from "@material-ui/lab";
+import Close from '@material-ui/icons/Close';
 import Check from '@material-ui/icons/Check';
 
 
@@ -46,14 +47,14 @@ function TaskList() {
             dateSetting: {locale: "en-GB"},
             filtering: false
 },
-        {
+        /*{
             render: (rowData) => {
                 return <div>{getStatusFaIcon(rowData.isDone)}</div>
             },
             field: "isDone",
             title: 'Hotovo',
             type: "boolean"
-        },
+        },*/
         {
             field: "note",
             title: 'Poznamka',
@@ -101,8 +102,8 @@ function TaskList() {
     }
 
     function finishTask(taskId) {
-        console.log("Deleting task " + JSON.stringify(taskId))
-        api.patch("/tasks/" + JSON.stringify(taskId) + "/done")
+        /*console.log("Deleting task " + JSON.stringify(taskId))*/
+        api.patch("/tasks/id/" + JSON.stringify(taskId) + "/done")
             .then(res => {
                 loadData();
             })
@@ -141,11 +142,11 @@ function TaskList() {
                     })
             }}
             actions={[
-                {
-                    icon: Check,
-                    tooltip: 'Finish task',
+                rowData => ({
+                    icon: rowData.isDone ? Close : Check,
+                    tooltip: rowData.isDone ? 'Mark the task unfinished' : 'Mark the task finished',
                     onClick: (event, rowData) => finishTask(rowData.idTask)
-                }
+                })
             ]}
         />
     </div>

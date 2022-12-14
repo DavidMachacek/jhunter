@@ -20,10 +20,10 @@ data class TaskEntity (
     val createdBy : String,
 
     @Column
-    val targetDate: LocalDateTime? = null,
+    val targetDate: LocalDateTime,
 
     @Column
-    var isDone: Boolean? = false,
+    var isDone: Boolean = false,
 
     @Column
     val note: String? = null
