@@ -3,6 +3,8 @@ import '../css/Persons.css';
 import {Avatar, Grid} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 import MaterialTable from '@material-table/core';
+import MTableToolbar from '@material-table/core';
+import Chip from '@mui/material/Chip';
 import PersonDetail from './PersonDetail';
 import {savePersonId} from '../slices/person.js';
 import tableIcons from '../consts/tableIcons';
@@ -77,18 +79,6 @@ function Persons() {
         }) : ""
     }
 
-    const modalStyle = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
-
     const validateEmail = (email) => {
         const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
         return re.test(String(email).toLowerCase());
@@ -103,9 +93,9 @@ function Persons() {
                 // Do something before request is sent
                 /*config = config*/
                 config.headers['Authorization'] = 'Bearer ' + userStore.user.access_token
-/*                config.headers['Origin'] = 'http://localhost:3001'
-                config.headers['Host'] = 'http://localhost:3001'
-                config.headers['Access-Control-Allow-Origin'] = '*'*/
+                /*                config.headers['Origin'] = 'http://localhost:3001'
+                                config.headers['Host'] = 'http://localhost:3001'
+                                config.headers['Access-Control-Allow-Origin'] = '*'*/
                 return config;
             }, function (error) {
                 // Do something with request error
@@ -115,7 +105,7 @@ function Persons() {
         api.post("/persons/search", {roles: roleKeys}
             /*,
             { headers: { Authorization: `Bearer ${userStore.user.id_token}` } }*/
-            )
+        )
 
             .then(res => {
                 setPersons(res.data);
@@ -159,36 +149,36 @@ function Persons() {
 
     }
 
-   /* const handleRowAdd = (newData, resolve) => {
-        //validation
-        let errorList = []
-        if (newData.firstName === undefined) {
-            errorList.push("Please enter first name")
-        }
-        if (newData.lastName === undefined) {
-            errorList.push("Please enter last name")
-        }
-        if (newData.email === undefined || validateEmail(newData.email) === false) {
-            errorList.push("Please enter a valid email")
-        }
+    /* const handleRowAdd = (newData, resolve) => {
+         //validation
+         let errorList = []
+         if (newData.firstName === undefined) {
+             errorList.push("Please enter first name")
+         }
+         if (newData.lastName === undefined) {
+             errorList.push("Please enter last name")
+         }
+         if (newData.email === undefined || validateEmail(newData.email) === false) {
+             errorList.push("Please enter a valid email")
+         }
 
-        if (errorList.length < 1) { //no error
-            api.post("/persons", newData)
-                .then(res => {
-                    setPersons([...persons, newData])
-                    resolve()
-                })
-                .catch(error => {
-                    setErrorMessages([...errorMessages, "Cannot add data. Server error!"])
-                    setIsError(true)
-                    resolve()
-                })
-        } else {
-            setErrorMessages([...errorMessages, ...errorList, "Adding person failed! Server error"])
-            setIsError(true)
-            resolve()
-        }
-    }*/
+         if (errorList.length < 1) { //no error
+             api.post("/persons", newData)
+                 .then(res => {
+                     setPersons([...persons, newData])
+                     resolve()
+                 })
+                 .catch(error => {
+                     setErrorMessages([...errorMessages, "Cannot add data. Server error!"])
+                     setIsError(true)
+                     resolve()
+                 })
+         } else {
+             setErrorMessages([...errorMessages, ...errorList, "Adding person failed! Server error"])
+             setIsError(true)
+             resolve()
+         }
+     }*/
 
     const handleRowDelete = (oldData, resolve) => {
 
@@ -215,13 +205,6 @@ function Persons() {
     return (
         <div className="Persons">
 
-            {/*<Grid container spacing={
-                1
-            }
-
-            >
-                <Grid item xs={3}></Grid>*/}
-            {/*<Grid item xs={6}>*/}
             <div>
                 {isError &&
                     <Alert severity="error">
@@ -239,11 +222,14 @@ function Persons() {
                 actions={[
                     {
                         icon: Edit,
-                        onClick: rowData => {
+                        onClick: (event, rowData) => {
+                            console.log("setSelectedRow" + JSON.stringify(rowData.tableData))
+                            setSelectedRow(rowData.tableData.id)
+                            dispatch(savePersonId(rowData.idPerson))
                             setModalOpen(true);
                         }
                     }
-                    ]}
+                ]}
                 options={{
                     padding: "dense",
                     actionsColumnIndex: -1,
@@ -261,11 +247,11 @@ function Persons() {
                     setSelectedRow(rowData.tableData.id)
                 }}
                 editable={{
-                    onRowUpdate: (newData, oldData) =>
-                        new Promise((resolve) => {
-                            handleRowUpdate(newData, oldData, resolve);
+                    /*        onRowUpdate: (newData, oldData) =>
+                                new Promise((resolve) => {
+                                    handleRowUpdate(newData, oldData, resolve);
 
-                        }),
+                                }),*/
                     /*onRowAdd: (newData) =>
                         new Promise((resolve) => {
                             handleRowAdd(newData, resolve)
@@ -285,18 +271,19 @@ function Persons() {
                         },
                     }
                 ]}
+                /*components={{
+                    Toolbar: props => (
+                        <div>
+                            <MTableToolbar {...props} />
+                            <div style={{padding: '0px 10px'}}>
+                                <Chip label="Add Person" color="secondary" style={{marginRight: 5}}/>
+                            </div>
+                        </div>
+                    ),
+                }}*/
             />
 
-            <Modal
-                open={modalOpen}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={modalStyle}>
-                   <PersonModal/>
-                </Box>
-            </Modal>
+            <PersonModal open={modalOpen} handleModalClose={handleModalClose}/>
         </div>
     )
 }

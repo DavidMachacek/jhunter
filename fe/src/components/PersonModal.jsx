@@ -2,76 +2,152 @@ import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Modal from '@mui/material/Modal';
 import api from "../consts/api";
+import Modal from "@mui/material/Modal";
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import {useSelector} from "react-redux";
 
 function PersonModal(props) {
+    const [form, setForm] = React.useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        linkedIn: ''
+    });
 
-    const defaultValues = {
-        firstName: "",
-        lastName: ""
-    };
-    const [formValues, setFormValues] = useState(defaultValues);
+    const personId = useSelector((state) => state.personReducer.id);
 
-    const handleSubmit = (event) => {
-        /*event.preventDefault();*/
-        console.log(formValues);
-    };
+    const [person, setPerson] = useState([]);
+    const loadPersonsData = (idPerson) => {
+        api.get("/persons/" + idPerson)
+            .then(res => {
+                setPerson(res.data)
+            })
+            .catch(error => {
+                console.log("Error")
+            })
+        setForm(person)
+        console.log("MODAL PERSON " + JSON.stringify(person));
+        console.log("JOJ First Name ");
+        console.log("JOJ First Name " + person && person.firstName);
+    }
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value,
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        setOpen(props.open);
+        loadPersonsData(personId)
+    }, [props.open, personId]);
+
+    const handleFormChange = (event) => {
+        setForm({
+            ...form,
+            [event.target.id]: event.target.value,
         });
     };
 
-    function addPerson(formValues) {
-        console.log("firstName " +(formValues.firstName));
-        console.log("lastName " + formValues.lastName);
-        console.log("sending " + JSON.stringify(formValues));
-        api.post("/persons", formValues)
+    const addPerson = (event) => {
+        event.preventDefault();
+        console.log("firstName " + (form.firstName));
+        console.log("lastName " + form.lastName);
+        console.log("sending " + JSON.stringify(form));
+        api.post("/persons", form)
             .then(res => {
-                props.handleModalClose()
+                setOpen(false)
             })
             .catch(error => {
             })
     }
 
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
     return (
-            <form onSubmit={addPerson}>
-                <Box
-                    component="form"
-                    noValidate
-                    autoComplete="off"
-                >
-                    <div>
-                        <TextField
-                            required
-                            id="outlined-required"
-                            name="firstName"
-                            label="Krestni Jmeno"
-                            type="text"
-                            defaultValue={formValues.firstName}
-                            /*value={formValues.krestni}*//*
-                            onChange={handleInputChange}*/
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Prijmeni"
-                            name="lastName"
-                            type="text"
-                            defaultValue={formValues.lastName}
-                            /*value={formValues.prijmeni}*//*
-                            onChange={handleInputChange}*/
-                        />
-                    </div>
-                    <Button variant="contained" color="primary" type="submit">
-                        Submit
-                    </Button>
-                </Box>
-            </form>
+        <Modal
+            open={props.open}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={modalStyle}>
+                <form onSubmit={addPerson}>
+
+                    <Typography variant="h6" gutterBottom>
+                        Add or Change Person
+                    </Typography>
+                    <Grid container spacing={3}
+                          direction="row"
+                          justifyContent="center"
+                          alignItems="center">
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="firstName"
+                                name="firstName"
+                                label="Krestni Jmeno"
+                                type="text"
+                                defaultValue={form.firstName}
+                                onChange={handleFormChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="lastName"
+                                label="Prijmeni"
+                                name="lastName"
+                                type="text"
+                                defaultValue={form.lastName}
+                                onChange={handleFormChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="email"
+                                label="Email"
+                                name="email"
+                                type="text"
+                                defaultValue={form.email}
+                                onChange={handleFormChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="linkedIn"
+                                label="LinkedIn"
+                                name="linkedIn"
+                                type="text"
+                                defaultValue={form.linkedIn}
+                                onChange={handleFormChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button variant="contained" color="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <Button variant="contained" color="primary" onClick={props.handleModalClose}>
+                                Exit
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Box>
+        </Modal>
     )
 }
 

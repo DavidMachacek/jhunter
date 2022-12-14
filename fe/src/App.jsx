@@ -96,9 +96,7 @@ function App(props) {
                                     <img src={mainLogo} height="80"/>
                                     {/*<Typography variant="h4">jHunter</Typography>*/}
                                 </Grid>
-                                <Grid item xs={3} md={3}>
-                                </Grid>
-                                <Grid item xs={3} md={3}>
+                                <Grid item xs={6} md={6}>
                                     <IdentityMenu user={props.user}
                                                   isAuthenticated={isAuthenticated(props.user)}
                                                   signIn={props.actions.signIn}

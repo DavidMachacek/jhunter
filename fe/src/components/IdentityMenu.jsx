@@ -41,25 +41,6 @@ function IdentityMenu(props) {
                         Profile
                         {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
                     </Button>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={modalStyle}>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Ahoj {user.profile.preferred_username}
-                            </Typography>
-                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                Tady jsou detaily uzivatele:
-                                <ul>
-                                    <li>Krestni jmeno: {user.profile.given_name}</li>
-                                    <li>Prijmeni: {user.profile.family_name}</li>
-                                </ul>
-                            </Typography>
-                        </Box>
-                    </Modal>
 
                     <Button variant="contained"
                         /*aria-owns={open ? 'menu-list' : null}
@@ -110,6 +91,29 @@ function IdentityMenu(props) {
                             color="error"><FontAwesomeIcon class="fa-solid fa-user"/> Sign in</Button>
                 )
             }
+
+
+
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Ahoj {user.profile.preferred_username}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Tady jsou detaily uzivatele:
+                        <ul>
+                            <li>Krestni jmeno: {user.profile.given_name}</li>
+                            <li>Prijmeni: {user.profile.family_name}</li>
+                        </ul>
+                    </Typography>
+                </Box>
+            </Modal>
         </div>
     )
 }

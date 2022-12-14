@@ -54,6 +54,11 @@ class PersonService(
         return personRepository.findAll().toList()
     }
 
+
+    fun getPerson(id: String): PersonEntity {
+        return personRepository.findById(id.toLong()).get()
+    }
+
     @Transactional
     fun patchPerson(id: String, personEntity: PersonEntity): PersonEntity {
         val dbPerson = personRepository.findById(id.toLong()).orElseThrow{ NotFoundException() }

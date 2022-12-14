@@ -18,6 +18,12 @@ class PersonController(
 
     private val logger = KotlinLogging.logger {}
 
+    @GetMapping("/{id}")
+    fun getPerson(@PathVariable id:String): PersonEntity {
+        logger.info{ "operation=getPerson, params=[id=$id]"}
+        return personService.getPerson(id)
+    }
+
     @PatchMapping("/{id}")
     fun patchPerson(@PathVariable id:String, @RequestBody person:PersonEntity): PersonEntity {
         logger.info{ "operation=patchPerson, params=[id=$id, person=$person]"}
