@@ -1,5 +1,6 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.task
 
+import cz.machacek.jhunter.core.toJhUser
 import mu.KotlinLogging
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt

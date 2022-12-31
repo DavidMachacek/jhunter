@@ -1,29 +1,27 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.communication
 
+import cz.machacek.jhunter.core.person.PersonEntity
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "Tasks")
-data class TaskEntity (
+@Table(name = "Communications")
+data class CommunicationEntity (
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idTask: Long? = null,
+    val idCommunication: Long? = null,
 
     @Column
     @field:CreationTimestamp
     val created : LocalDateTime? = null,
 
     @Column
-    val createdBy : String,
+    val channel: CommunicationChannelEnum? = null,
 
     @Column
-    val targetDate: LocalDateTime,
-
-    @Column
-    var isDone: Boolean = false,
+    val payload: String? = null,
 
     @Column
     val note: String? = null

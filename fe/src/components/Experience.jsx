@@ -5,8 +5,6 @@ import MaterialTable from '@material-table/core';
 import tableIcons from "../consts/tableIcons";
 import CustomDatePicker from "./CustomDatePicker";
 import "../css/Experience.css"
-import roleReducer from "../slices/roleFilter";
-import personReducer from "../slices/person";
 
 function Experience() {
     const [experience, setExperience] = useState([]);
@@ -86,6 +84,8 @@ function Experience() {
             columns={columns}
             data={experience}
             options={{
+                maxBodyHeight: "20vh",
+                minBodyHeight: "20vh",
                 padding: "dense",
                 search: false, filtering: false,
                 actionsColumnIndex: -1,

@@ -1,5 +1,9 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.person
 
+import cz.machacek.jhunter.core.SearchPersonRequest
+import cz.machacek.jhunter.core.task.TaskService
+import cz.machacek.jhunter.core.communication.CommunicationService
+import cz.machacek.jhunter.core.experience.ExperienceService
 import mu.KotlinLogging
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
@@ -17,7 +21,7 @@ class PersonService(
 
     init {
         createPeople()
-        communicationService.createCommunication()
+        communicationService.createSampleCommunication()
         experienceService.createExp()
         taskService.createTasks()
     }
@@ -80,7 +84,7 @@ class PersonService(
         return personRepository.save(dbPerson)
     }
 
-    fun createPerson(person:PersonEntity) {
+    fun createPerson(person: PersonEntity) {
         personRepository.save(person)
     }
 

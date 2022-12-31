@@ -1,3 +1,5 @@
 .idea/
 node_modules
 .DS_Store
+core/src/main/resources/data/
+core/src/main/resources/sendgrid.yaml

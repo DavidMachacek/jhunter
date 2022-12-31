@@ -1,4 +1,4 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.experience
 
 enum class ExperienceSeniorityEnum {
     JUNIOR,

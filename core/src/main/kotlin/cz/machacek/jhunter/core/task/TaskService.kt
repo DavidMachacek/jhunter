@@ -1,12 +1,10 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.task
 
+import cz.machacek.jhunter.core.person.PersonRepository
 import mu.KotlinLogging
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.stereotype.Service
-import java.time.Instant.now
 import java.time.LocalDateTime
-import java.time.LocalDateTime.now
-import java.util.*
 
 @Service
 class TaskService(

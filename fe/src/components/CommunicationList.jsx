@@ -1,10 +1,9 @@
-import React, {Component, forwardRef, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import MaterialTable from '@material-table/core';
 import CustomDatePicker from "./CustomDatePicker.jsx";
 import tableIcons from '../consts/tableIcons';
 import {useSelector} from "react-redux";
 import api from "../consts/api"
-import personReducer from "../slices/person";
 
 function CommunicationList() {
     const [communications, setCommunications] = useState([]);
@@ -28,7 +27,6 @@ function CommunicationList() {
     }
 
     const handleRowAdd = (newData, resolve) => {
-        //validation
         let errorList = []
         if (newData.channel === undefined) {
             newData.channel = "EMAIL";
@@ -78,7 +76,9 @@ function CommunicationList() {
             columns={columns}
             data={communications}
             options={{
-                pageSize: 10,
+                maxBodyHeight: "30vh",
+                minBodyHeight: "30vh",
+                pageSize: 8,
                 padding: "dense",
                 search: false, filtering: false,
                 actionsColumnIndex: -1,

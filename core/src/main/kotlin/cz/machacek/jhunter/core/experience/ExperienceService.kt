@@ -1,5 +1,6 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.experience
 
+import cz.machacek.jhunter.core.person.PersonRepository
 import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.experience
 
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.*

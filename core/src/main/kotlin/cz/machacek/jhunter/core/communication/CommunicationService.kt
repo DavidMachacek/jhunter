@@ -1,5 +1,6 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.communication
 
+import cz.machacek.jhunter.core.person.PersonRepository
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -11,19 +12,19 @@ class CommunicationService(
     ) {
 
     @Transactional
-    fun getCommunication(idPerson: String): List<CommunicationEntity> {
-        return communicationRepository.findAllByIdPerson(idPerson.toLong()).toList()
+    fun getCommunication(idPerson: Long): List<CommunicationEntity> {
+        return communicationRepository.findAllByIdPerson(idPerson).toList()
     }
 
     @Transactional
-    fun createCommunication(idPerson: String, entity: CommunicationEntity): CommunicationEntity {
-        val personEntity = personRepository.findById(idPerson.toLong()).orElseThrow{ NotFoundException() }
+    fun createCommunication(idPerson: Long, entity: CommunicationEntity): CommunicationEntity {
+        val personEntity = personRepository.findById(idPerson).orElseThrow{ NotFoundException() }
         entity.personEntity = personEntity
         return communicationRepository.save(entity)
     }
 
     @Transactional
-    fun createCommunication() {
+    fun createSampleCommunication() {
         val comm1 = CommunicationEntity(channel = CommunicationChannelEnum.EMAIL, note = "poslal se email, clovek neodpovida")
         comm1.personEntity = personRepository.findById(1L).orElseThrow{ NotFoundException() }
         communicationRepository.save(comm1)

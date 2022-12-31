@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../css/Persons.css';
-import {Avatar, Grid} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 import MaterialTable from '@material-table/core';
-import MTableToolbar from '@material-table/core';
-import Chip from '@mui/material/Chip';
 import PersonDetail from './PersonDetail';
 import {savePersonId} from '../slices/person.js';
 import tableIcons from '../consts/tableIcons';
@@ -16,13 +13,9 @@ import * as Icons from '@fortawesome/free-solid-svg-icons';
 import * as IconsBrands from '@fortawesome/free-brands-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import useStyles from "../styles";
-import roleReducer from "../slices/roleFilter";
-import {reducer as oidc} from "redux-oidc";
 import PersonModal from "./PersonModal";
-import Modal from '@mui/material/Modal';
 import Add from "@material-ui/icons/Add";
 import Edit from "@material-ui/icons/Edit";
-import Box from '@mui/material/Box';
 
 function Persons() {
     const [persons, setPersons] = useState([]);
@@ -53,12 +46,6 @@ function Persons() {
 
     const columns = [
         {title: "id", field: "idPerson", hidden: true},
-        /*{
-            title: "Avatar",
-            render: rowData => <Avatar size={40}
-                                       name={rowData === undefined ? " " : rowData.firstName}/>
-                                       .filter(({ l: v }) => v === exp.key)
-        },*/
         {
             render: (rowData) => {
                 return `${rowData.firstName} ${rowData.lastName}`;
@@ -91,21 +78,13 @@ function Persons() {
         })
         api.interceptors.request.use(
             function (config) {
-                // Do something before request is sent
-                /*config = config*/
                 config.headers['Authorization'] = 'Bearer ' + userStore.user.access_token
-                /*                config.headers['Origin'] = 'http://localhost:3001'
-                                config.headers['Host'] = 'http://localhost:3001'
-                                config.headers['Access-Control-Allow-Origin'] = '*'*/
                 return config;
             }, function (error) {
-                // Do something with request error
                 return Promise.reject(error);
             }
         )
         api.post("/persons/search", {roles: roleKeys}
-            /*,
-            { headers: { Authorization: `Bearer ${userStore.user.id_token}` } }*/
         )
 
             .then(res => {
@@ -149,37 +128,6 @@ function Persons() {
         }
 
     }
-
-    /* const handleRowAdd = (newData, resolve) => {
-         //validation
-         let errorList = []
-         if (newData.firstName === undefined) {
-             errorList.push("Please enter first name")
-         }
-         if (newData.lastName === undefined) {
-             errorList.push("Please enter last name")
-         }
-         if (newData.email === undefined || validateEmail(newData.email) === false) {
-             errorList.push("Please enter a valid email")
-         }
-
-         if (errorList.length < 1) { //no error
-             api.post("/persons", newData)
-                 .then(res => {
-                     setPersons([...persons, newData])
-                     resolve()
-                 })
-                 .catch(error => {
-                     setErrorMessages([...errorMessages, "Cannot add data. Server error!"])
-                     setIsError(true)
-                     resolve()
-                 })
-         } else {
-             setErrorMessages([...errorMessages, ...errorList, "Adding person failed! Server error"])
-             setIsError(true)
-             resolve()
-         }
-     }*/
 
     const handleRowDelete = (oldData, resolve) => {
 
@@ -241,9 +189,11 @@ function Persons() {
                     }
                 ]}
                 options={{
+                    maxBodyHeight: "59vh",
+                    minBodyHeight: "59vh",
                     padding: "dense",
                     actionsColumnIndex: -1,
-                    pageSize: 20, pageSizeOptions: [5, 10, 20, 30],
+                    pageSize: 10, pageSizeOptions: [5, 10, 20, 30],
                     rowStyle: (data, index) => (selectedRow === data.tableData.id ? {
                         background: "#f8bbd0"
                     } : index % 2 == 0 ? {
@@ -257,15 +207,6 @@ function Persons() {
                     setSelectedRow(rowData.tableData.id)
                 }}
                 editable={{
-                    /*        onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve) => {
-                                    handleRowUpdate(newData, oldData, resolve);
-
-                                }),*/
-                    /*onRowAdd: (newData) =>
-                        new Promise((resolve) => {
-                            handleRowAdd(newData, resolve)
-                        }),*/
                     onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                             handleRowDelete(oldData, resolve)
@@ -281,16 +222,6 @@ function Persons() {
                         },
                     }
                 ]}
-                /*components={{
-                    Toolbar: props => (
-                        <div>
-                            <MTableToolbar {...props} />
-                            <div style={{padding: '0px 10px'}}>
-                                <Chip label="Add Person" color="secondary" style={{marginRight: 5}}/>
-                            </div>
-                        </div>
-                    ),
-                }}*/
             />
 
             <PersonModal open={modalOpen} handleModalClose={handleModalClose}/>

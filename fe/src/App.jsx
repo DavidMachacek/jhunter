@@ -1,27 +1,21 @@
 import React, {useEffect} from 'react';
 import Persons from './components/Persons.jsx';
-import {useSelector} from "react-redux";
 import CommunicationList from "./components/CommunicationList";
 import Experience from "./components/Experience";
 import './css/App.css';
-import {AppBar, CssBaseline, Typography, Toolbar, Container, Grid, ThemeProvider} from '@mui/material';
+import {AppBar, Container, CssBaseline, Grid, ThemeProvider, Toolbar} from '@mui/material';
 import useStyles from './styles'
 import FilterBar from "./components/FilterBar";
-import {createTheme} from '@material-ui/core/styles'
+import {createTheme, MuiThemeProvider} from '@material-ui/core/styles'
 import TaskList from "./components/TaskList";
 import PropTypes from 'prop-types';
 import {connected} from './slices/connected';
-import {signIn, signInSilent, signOut, changePassword} from './slices/identityActions';
+import {changePassword, signIn, signInSilent, signOut} from './slices/identityActions';
 import IdentityMenu from "./components/IdentityMenu";
 import '../public/jhunter-logo.png';
 import mainLogo from '../public/jhunter-logo2.png';
+import Notifications from "./components/Notifications";
 
-/*
-
-interface PersonIdState {
-    personId: Text
-}
-*/
 
 function App(props) {
 
@@ -30,21 +24,17 @@ function App(props) {
         if (!user) {
             actions.signInSilent().catch(e => console.error(e));
         }
-
-        /*console.log('Token ' + user)
-        console.log('Token ' + JSON.stringify(user))*/
-        //console.log('Token ' + user.id_token)
-        // console.log('Token ' + user.data.id)
     })
 
-    /*const personId = useSelector((state) => state.persons.id);*/
     const classes = useStyles();
 
     const theme = createTheme({
         palette: {
             type: 'light',
             primary: {
-                main: '#f8bbd0',
+                /*main: '#f8bbd0',*/
+                main: '#ffffff',
+                contrastText: '#000000',
                 light: '#ffcdd2',
                 dark: '#f06292',
             },
@@ -53,14 +43,6 @@ function App(props) {
             },
         },
         typography: {
-            body1: {
-                /*fontSize: '1rem',*/
-                /*fontWeight: 400,*/
-            },
-            body2: {
-                /*fontSize: '0.8rem',*/
-                /*fontWeight: 400,*/
-            },
             h1: {
                 fontWeight: 300,
             },
@@ -85,7 +67,7 @@ function App(props) {
 
     return (
         <div>
-            <ThemeProvider theme={theme}>
+            <MuiThemeProvider theme={theme}>
                 <main>
                     <CssBaseline/>
                     <AppBar>
@@ -97,7 +79,7 @@ function App(props) {
                                     <img src={mainLogo} height="80"/>
                                     {/*<Typography variant="h4">jHunter</Typography>*/}
                                 </Grid>
-                                <Grid item xs={6} md={6}>
+                                <Grid item xs={5} md={5}>
                                     <IdentityMenu user={props.user}
                                                   isAuthenticated={isAuthenticated(props.user)}
                                                   signIn={props.actions.signIn}
@@ -107,6 +89,9 @@ function App(props) {
                                 </Grid>
                                 <Grid item xs={3} md={3}>
                                     <FilterBar className={classes.formControl}/>
+                                </Grid>
+                                <Grid xs={1}>
+                                    <Notifications/>
                                 </Grid>
                             </Grid>
                         </Toolbar>
@@ -118,7 +103,7 @@ function App(props) {
                                     <Persons/>
                                 </Grid>
                             </Grid>
-                            <Grid container alignContent="baseline"xs={6} md={8} spacing={0}>
+                            <Grid container alignContent="baseline" xs={6} md={8} spacing={0}>
                                 <Grid item xs={12} md={12}>
                                     <Experience/>
                                 </Grid>
@@ -135,7 +120,7 @@ function App(props) {
                     </Container>
                 </main>
                 <footer></footer>
-            </ThemeProvider>
+            </MuiThemeProvider>
 
 
             <br/>
@@ -149,12 +134,6 @@ function App(props) {
 
 const isAuthenticated = (user) => {
     return !!(user && user.profile);
-};
-
-const getUserName = (user) => {
-    return (user && user.profile && user.profile.preferred_username)
-        ? user.profile.preferred_username
-        : '';
 };
 
 App.propTypes = {

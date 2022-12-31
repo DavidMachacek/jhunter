@@ -1,12 +1,12 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.person
 
+import cz.machacek.jhunter.core.SearchPersonRequest
+import cz.machacek.jhunter.core.toJhUser
 import mu.KotlinLogging
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
-import java.security.Principal
 
 //@CrossOrigin(origins = ["http://localhost:3000"], methods = [RequestMethod.GET, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.OPTIONS], maxAge = 3600)
 @RestController
@@ -25,13 +25,13 @@ class PersonController(
     }
 
     @PatchMapping("/{id}")
-    fun patchPerson(@PathVariable id:String, @RequestBody person:PersonEntity): PersonEntity {
+    fun patchPerson(@PathVariable id:String, @RequestBody person: PersonEntity): PersonEntity {
         logger.info{ "operation=patchPerson, params=[id=$id, person=$person]"}
         return personService.patchPerson(id, person)
     }
 
     @PostMapping
-    fun createPerson(@RequestBody person:PersonEntity) {
+    fun createPerson(@RequestBody person: PersonEntity) {
         logger.info{ "operation=createPerson, params=[person=$person]"}
         personService.createPerson(person)
     }

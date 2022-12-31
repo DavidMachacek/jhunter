@@ -1,6 +1,7 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.person
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import cz.machacek.jhunter.core.RoleEnum
+import cz.machacek.jhunter.core.experience.ExperienceEntity
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
 import javax.persistence.*

@@ -1,6 +1,7 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.experience
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import cz.machacek.jhunter.core.person.PersonEntity
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode

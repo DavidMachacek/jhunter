@@ -25,9 +25,6 @@ const MenuProps = {
 function getStyles(role, roleName, theme) {
     return {
         fontWeight: theme.typography.fontWeightRegular
-            /*roleName.indexOf(role.key) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,*/
     };
 }
 
@@ -42,7 +39,6 @@ function FilterBar() {
             target: { value },
         } = event;
         setRoleName(
-            // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
         dispatch(saveRole(value))

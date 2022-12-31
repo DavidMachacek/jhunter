@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import api from "../consts/api";
 import MaterialTable from '@material-table/core';
 import tableIcons from "../consts/tableIcons";
-import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import taskStatus from "../consts/status";
 import {Alert} from "@material-ui/lab";
@@ -15,8 +14,6 @@ function TaskList() {
     const [tasks, setTasks] = useState([]);
     const [isError, setIsError] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
-
-    /*const personId = useSelector((state) => state.persons.id);*/
 
     function loadData() {
         api.get("/tasks")
@@ -31,30 +28,13 @@ function TaskList() {
 
     const columns = [
         {title: "id", field: "idTask", hidden: true, filtering: false },
-        /*        {
-                    render: (rowData) => {
-                        return `${rowData.personEntity.firstName} ${rowData.personEntity.lastName}`;
-                    },
-                    title: 'Jmeno',
-                },*/
         {
-            /*render: (rowData) => {
-                return `${rowData.targetDate}`;
-            },*/
             field: "targetDate",
             title: 'Datum',
             type: "datetime",
             dateSetting: {locale: "en-GB"},
             filtering: false
 },
-        /*{
-            render: (rowData) => {
-                return <div>{getStatusFaIcon(rowData.isDone)}</div>
-            },
-            field: "isDone",
-            title: 'Hotovo',
-            type: "boolean"
-        },*/
         {
             field: "note",
             title: 'Poznamka',

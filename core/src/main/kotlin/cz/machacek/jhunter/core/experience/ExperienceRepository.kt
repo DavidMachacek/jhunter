@@ -1,4 +1,4 @@
-package cz.machacek.jhunter.core
+package cz.machacek.jhunter.core.experience
 
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository

@@ -20,7 +20,7 @@ function Notifications() {
     function loadTasks() {
         api.get("/tasks/due")
             .then(res => {
-                console.log("Response due tasks: " + JSON.stringify(res.data))
+                /*console.log("Response due tasks: " + JSON.stringify(res.data))*/
                 setTasks(res.data);
             })
             .catch(error => {

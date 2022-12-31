@@ -33,7 +33,7 @@ function IdentityMenu(props) {
             {isAuthenticated ?
                 (<div>
                     <Grid container alignContent="center">
-                        <Grid xs={3}>
+                        <Grid xs={6}>
                             {/*className={classes.profileButton}*/}
                             <Button variant="contained"
                                     onClick={handleOpen}
@@ -46,7 +46,7 @@ function IdentityMenu(props) {
                                 {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
                             </Button>
                         </Grid>
-                        <Grid xs={3}>
+                        <Grid xs={6}>
                             <Button variant="contained"
                                 /*aria-owns={open ? 'menu-list' : null}
                                 aria-haspopup="true"
@@ -58,9 +58,6 @@ function IdentityMenu(props) {
                                 SignOut
                                 {/*<AccountIcon className={`${classes.rightIcon} appIcon`}/>*/}
                             </Button>
-                        </Grid>
-                        <Grid xs={6}>
-                            <Notifications/>
                         </Grid>
                     </Grid>
                 </div>)
